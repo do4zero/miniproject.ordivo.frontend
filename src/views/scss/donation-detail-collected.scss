@@ -1,0 +1,42 @@
+.box-nominal-dana-terkumpul {
+  background-color: #fff;
+  padding: 20px;
+  text-align: center;
+  border-radius: 15px;
+  h5 {
+    font-size: 18px;
+
+    @media screen and (max-width: 374px) {
+      font-size: 12px;
+    }
+  }
+
+  h3 {
+    font-size: 31px;
+    font-weight: bold;
+
+    @media screen and (max-width: 374px) {
+      font-size: 20px;
+    }
+  }
+}
+
+.box-chart {
+  display: block;
+  height: 300px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+
+  @media screen and (max-width: 374px) {
+    height: 200px;
+  }
+
+  p {
+    position: relative;
+    padding: 20px;
+    text-align: center;
+    top: 38%;
+    color: #ccc;
+  }
+}

@@ -1,0 +1,59 @@
+.layanan-pengguna {
+  .row {
+    .col-md-4 {
+      @media screen and (max-width: 374px) {
+        width: 30%;
+      }
+    }
+
+    text-align: center;
+    .whatsapp,
+    .email,
+    .faq {
+      display: block;
+      position: relative;
+      margin: 0 auto;
+      width: 60px;
+      height: 60px;
+      background-color: #fff;
+      border-radius: 10px;
+
+      @media screen and (max-width: 374px) {
+        width: 40px;
+        height: 40px;
+      }
+
+      img {
+        width: 60px;
+        height: 60px;
+
+        @media screen and (max-width: 374px) {
+          width: 40px;
+          height: 40px;
+        }
+      }
+    }
+
+    p {
+      margin-top: 10px;
+
+      @media screen and (max-width: 374px) {
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+.skeletonSlider {
+  min-height: 70vh;
+  background: #ddd;
+}
+
+.noimage {
+  display: flex;
+  height: 200px;
+  background-color: #f7f7f7;
+  justify-content: center;
+  align-items: center;
+  color: #ccc;
+}
