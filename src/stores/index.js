@@ -4,6 +4,7 @@ import createPersistedState from 'vuex-persistedstate';
 
 import transactions from './transactions/index.js';
 import shoppingcart from './keranjangbelanja/index.js';
+import payment from './metodepembayaran/index.js';
 
 Vue.use(Vuex);
 
@@ -11,6 +12,7 @@ const store = new Vuex.Store({
   modules: {
     transactions,
     shoppingcart,
+    payment,
   },
   state: {
     token: localStorage.getItem('token'),

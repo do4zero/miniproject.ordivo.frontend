@@ -1,9 +1,39 @@
 <template>
   <div>
+    <div class="total-menu" style="bottom: 45px !important;">
+      <div
+        class="information"
+        style="font-size: 10px; display:flex; justify-content: center; align-items:left; flex-direction:column; gap: 5px;"
+      >
+        Pilihan Pembayaran
+        <span v-if="!payments" style="font-size: 9px; color: #ff8823">
+          ( Belum Dipilih )
+        </span>
+        <div v-else>
+          <img
+            :src="`/img/metpem/${payments.paymentImage}`"
+            height="20px"
+          />
+        </div>
+      </div>
+      <div
+        class="information"
+        style="font-size: 10px; display:flex; justify-content: center; align-items:right; flex-direction:column; gap: 5px;"
+      >
+        Biaya Penanganan
+        <span v-if="!payments" style="font-size: 12px;">
+          Rp 0,00-
+        </span>
+        <span v-else style="font-size: 12px;">
+          Rp {{ rp(payments.paymentAdmin) }}
+        </span>
+      </div>
+    </div>
     <div class="main-menu">
       <div
         class="checkout"
         style="display:flex; justify-content: space-between; align-items:center; gap: 10px !important; width: 100%"
+        @click="checkout"
       >
         <button class="btn-pesan" style="height:40px; flex: 1">
           Konfirmasi
@@ -14,7 +44,32 @@
 </template>
 
 <script>
-export default {};
+import { mapState } from 'vuex';
+
+export default {
+  computed: {
+    ...mapState('payment', ['payments']),
+  },
+  methods: {
+    checkout() {
+      if (this.payments) {
+        this.$router.push({
+          name: 'order-belanja',
+          params: {
+            tokoid: this.$route.params.tokoid,
+            bookid: this.$route.params.bookid,
+          },
+        });
+      } else {
+        this.$swal({
+          icon: 'error',
+          title: 'Pilih Pembayaran',
+          text: 'Metode pembayaran anda belum dipilih.',
+        });
+      }
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 @mixin mobile-s {

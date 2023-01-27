@@ -19,33 +19,38 @@
         <div class="main-produk">
           <sized-box :height="40" />
           <div class="content">
-            <div class="bg-white"></div>
+            <div class="bg-white" style="padding: 20px">
+              <payment-box
+                @setPaymentPilihan="setPaymentPilihan"
+              ></payment-box>
+            </div>
           </div>
 
           <sized-box :height="140" />
         </div>
         <MainMenu />
       </div>
-      <ModalAdress ref="modal_address" />
     </div>
   </div>
 </template>
 
 <script>
 import MainMenu from '@/components/menu/PesanMenu.vue';
+import PaymentBox from '@/components/payment/Index.vue';
 
 // @ is an alias to /src
 import { mapActions } from 'vuex';
 
 // import scripts
-import { Models } from '@/scripts/orders/models';
-import { Controllers } from '@/scripts/orders/controllers';
+import { Models } from '@/scripts/metodepembayaran/models';
+import { Controllers } from '@/scripts/metodepembayaran/controllers';
 
 import { mapState } from 'vuex';
 
 export default {
   components: {
     MainMenu,
+    PaymentBox,
   },
   data() {
     return {
