@@ -6,7 +6,7 @@
 @import 'app.scss';
 
 .topbar-back {
-  color: #000;
+  color: #fff;
   text-decoration: none;
   position: fixed;
   width: 480px;
@@ -16,9 +16,13 @@
   z-index: 5;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  background-color: #ffffff;
+  background-color: #ff8823;
   display: flex;
+  justify-content: flex-start;
   align-items: center;
+  font-size: 13px;
+  gap: 10px;
+  box-shadow: rgb(0 0 0 / 12%) 0px 2px 1px 0px;
   &.shrink {
     background-color: #ffffff;
     padding: 12px 36px;
@@ -40,6 +44,14 @@
   .title {
     padding-left: 10px;
     font-weight: 500;
+  }
+
+  .back-text {
+    font-size: 14px;
+  }
+  svg {
+    position: relative;
+    top: -1px;
   }
 
   &:hover {
@@ -349,5 +361,344 @@
 
 .map-overlay-hide {
   display: none;
+}
+
+.sticky-search {
+  display: block;
+  position: fixed;
+  left: 50%;
+  top: 40px;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 480px;
+  background: #fff;
+  z-index: 999999;
+  padding: 25px 15px 10px 15px !important;
+  box-shadow: rgb(0 0 0 / 12%) 0px 2px 1px 0px;
+}
+
+/* Add some top padding to the page content to prevent sudden quick movement (as the header gets a new position at the top of the page (position:fixed and top:0) */
+.sticky-search + .content {
+  padding-top: 102px;
+}
+
+.btn-filter {
+  width: 100%;
+  text-align: center;
+  border-radius: 0px !important;
+  background: #ff8823 !important;
+  color: #fff !important;
+  border-radius: 50px !important;
+  padding: 8px 0px !important;
+  font-weight: 500 !important;
+}
+
+.pencarian {
+  display: flex;
+  gap: 5px;
+  padding: 10px 0px 0px 0px;
+
+  button {
+    font-size: 11px;
+
+    @include mobile-s {
+      font-size: 9px;
+      padding: 10px 0px;
+    }
+  }
+}
+
+.main-menu {
+  z-index: 99;
+  position: fixed;
+  left: 50%;
+  bottom: -5px;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 480px;
+  padding: 0px 20px;
+}
+
+.my-input {
+  font-size: 12px !important;
+  padding: 10px 15px !important;
+  border-radius: 50px !important;
+}
+
+.form-control:focus {
+  border-color: #ccc !important;
+  box-shadow: 0 0 0px rgba(98, 101, 228, 1) !important;
+}
+
+.total-menu {
+  z-index: 99;
+  position: fixed;
+  left: 50%;
+  bottom: 65px;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  max-width: 480px;
+  padding: 0px 20px;
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  .information {
+    background: #fff;
+    padding: 10px 10px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+    width: 100%;
+    box-shadow: rgb(0 0 0 / 12%) 0px 2px 6px 0px;
+
+    @include mobile-s {
+      font-size: 11px;
+      width: 100%;
+    }
+  }
+
+  .checkout {
+    .btn-bagikan {
+      width: 150px;
+      height: 100%;
+      border: none;
+      background: #fff;
+      border: 1px solid #ff8823;
+      border-radius: 5px;
+      color: #ff8823;
+      font-weight: 500;
+      @include mobile-s {
+        font-size: 11px;
+        width: 100px;
+      }
+    }
+    .btn-checkout {
+      width: 150px;
+      height: 100%;
+      border: none;
+      background: #ff8823;
+      border-radius: 5px;
+      color: #fff;
+      font-weight: 500;
+      @include mobile-s {
+        font-size: 11px;
+        width: 100px;
+      }
+    }
+  }
+}
+
+.btn-pesan {
+  width: 150px;
+  height: 100%;
+  border: none;
+  background: #ff8823;
+  border-radius: 5px;
+  color: #fff;
+  font-weight: 500;
+  @include mobile-s {
+    font-size: 11px;
+    width: 100px;
+  }
+}
+
+.content {
+  padding: 10px;
+}
+
+.bg-white {
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  text-align: left;
+  width: 100%;
+
+  @include mobile-m {
+    font-size: 18px;
+  }
+
+  @include mobile-s {
+    font-size: 18px;
+  }
+}
+
+.shopping-cart-item {
+  display: flex;
+  gap: 10px;
+  .image {
+    height: 110px;
+    flex: 0 0 110px;
+    overflow: hidden;
+    border-radius: 5px;
+    background: #999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #cecece;
+    font-size: 11px;
+
+    @include mobile-m {
+      height: 110px;
+      flex: 0 0 110px;
+    }
+
+    @include mobile-s {
+      height: 100px;
+      flex: 0 0 100px;
+    }
+
+    img {
+      height: 110px;
+      width: 110px;
+      object-fit: cover;
+    }
+  }
+
+  .cart-content {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+
+    .delete {
+      position: absolute;
+      border: 1px solid #ddd;
+      width: 25px;
+      height: 25px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      color: #bd3636;
+      border-radius: 3px;
+      top: 0px;
+      right: 0px;
+
+      @include mobile-s {
+        width: 20px;
+        height: 20px;
+      }
+
+      svg {
+        font-size: 12px;
+
+        @include mobile-s {
+          font-size: 10px;
+        }
+      }
+    }
+
+    .subtotal {
+      font-size: 10px;
+      padding: 5px 0px;
+
+      @include mobile-s {
+        font-size: 8px;
+        height: 35px;
+      }
+
+      .price {
+        color: #ff8823;
+        font-size: 12px;
+        font-weight: 500;
+
+        @include mobile-s {
+          font-size: 10px;
+          height: 35px;
+        }
+      }
+    }
+
+    .title {
+      max-width: 85%;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      height: 48px;
+      display: -webkit-box;
+      position: relative;
+
+      @include mobile-m {
+        font-size: 14px;
+      }
+
+      @include mobile-s {
+        font-size: 12px;
+        height: 35px;
+      }
+    }
+  }
+}
+.action {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  .counter {
+    display: flex;
+    gap: 0px;
+    .item {
+      border: 1px solid #888;
+      padding: 1px 15px;
+      font-size: 10px;
+      color: #888;
+      cursor: pointer;
+      border-right: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &:first-child {
+        border-left: 1px solid #888;
+      }
+
+      &:last-child {
+        border-right: 1px solid #888;
+      }
+
+      @include mobile-s {
+        padding: 0px 10px;
+      }
+    }
+
+    .value {
+      width: 70px;
+      text-align: center;
+      font-size: 12px;
+      font-weight: 500;
+
+      @include mobile-s {
+        width: 50px;
+        font-size: 11px;
+      }
+      @include mobile-m {
+        width: 60px;
+        font-size: 10px;
+      }
+    }
+  }
+
+  .add-note {
+    padding: 2px 5px;
+    background: #fff;
+    font-size: 10px;
+    text-align: center;
+    border: 1px solid #888;
+    cursor: pointer;
+    @include mobile-s {
+      width: 50px;
+      font-size: 9px;
+
+      svg {
+        display: none;
+      }
+    }
+  }
 }
 </style>

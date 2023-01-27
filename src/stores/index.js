@@ -3,21 +3,18 @@ import Vuex from 'vuex';
 import createPersistedState from 'vuex-persistedstate';
 
 import transactions from './transactions/index.js';
-import ziswaf_campaigns from './ziswaf_campaigns/index.js';
+import shoppingcart from './keranjangbelanja/index.js';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
   modules: {
     transactions,
-    ziswaf_campaigns,
+    shoppingcart,
   },
   state: {
     token: localStorage.getItem('token'),
     errors: [],
-    prevPath: '',
-    nextPath: '',
-    flashMessage: '',
   },
   getters: {
     isAuth: (state) => {

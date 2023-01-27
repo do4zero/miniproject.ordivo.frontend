@@ -42,6 +42,7 @@
     "vue-qrcode": "^0.4.0",
     "vue-router": "^3.2.0",
     "vue-socialmedia-share": "^1.0.1",
+    "vue-sticky-scroll": "^0.1.0",
     "vue-sweetalert2": "^5.0.2",
     "vue-toasted": "^1.1.28",
     "vue2-datepicker": "^3.11.1",

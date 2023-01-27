@@ -1,28 +1,34 @@
-import Home from '@/views/Home.vue';
-import SplashScreen from '@/components/SplashScreen';
-import Faq from '@/views/Faq';
-import CategoryIndex from '@/views/category/Index.vue';
+import Produk from '@/views/Produk.vue';
+import ProdukDetail from '@/views/ProdukDetail.vue';
+import KeranjangBelanja from '@/views/KeranjangBelanja.vue';
+import OrderBelanja from '@/views/ProdukOrder.vue';
+import MetodePembayaran from '@/views/MetodePembayaran.vue';
 
 const HomeRoutes = [
   {
-    path: '/',
-    name: 'home',
-    component: Home,
+    path: '/:tokoid',
+    name: 'produk',
+    component: Produk,
   },
   {
-    path: '/splash-screen',
-    name: 'splash-screen',
-    component: SplashScreen,
+    path: '/:tokoid/produk/:produkid',
+    name: 'produk-detail',
+    component: ProdukDetail,
   },
   {
-    path: '/faq',
-    name: 'faq',
-    component: Faq,
+    path: '/:tokoid/keranjang/:bookid',
+    name: 'keranjang-belanja',
+    component: KeranjangBelanja,
   },
   {
-    path: '/categories/:id/:kode_lembaga',
-    name: 'category',
-    component: CategoryIndex,
+    path: '/:tokoid/order/:bookid',
+    name: 'order-belanja',
+    component: OrderBelanja,
+  },
+  {
+    path: '/:tokoid/metode-pembayaran/:bookid',
+    name: 'metode-pembayaran',
+    component: MetodePembayaran,
   },
 ];
 

@@ -1,0 +1,3 @@
+const Controllers = {};
+
+export { Controllers };

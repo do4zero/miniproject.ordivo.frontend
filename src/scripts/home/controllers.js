@@ -1,25 +1,35 @@
-import axios from '@/utils/api';
-import axios_masjid from '@/utils/masjedapi';
+import pos from '@/utils/pos';
+import $store from '@/stores/index';
 
 const Controllers = {
   // fetch program masjid
-  async fetchProgramMasjid() {
-    this.skeletonCard = true;
-    const campaigns = await axios_masjid.get(
-      '/dkm/pendanaan/microsite/random-five'
-    );
-    const { data } = campaigns.data;
-    this.program_masjid = data;
-    this.skeletonCard = false;
+  async loadProduk() {
+    const { tokoid } = this.$route.params;
+    this.skeletonProduct = true;
+    const response = await pos.get(`/shop/${tokoid}/products`);
+    const { data } = response.data;
+    this.products = data;
+    this.skeletonProduct = false;
   },
-  // fetch category masjed
-  async loadCategory() {
-    this.skeletonCategory = true;
-    const response = await axios.get('/new-microsite/categories');
-    const { categories_masjed, categories_ydym } = response.data.data;
-    this.skeletonCategory = false;
-    this.MasjedCategory = categories_masjed;
-    this.YdymCategory = categories_ydym;
+  async loadTokoInformation() {
+    const { tokoid } = this.$route.params;
+    this.skeletonInformation = true;
+    const response = await pos.get(`/shop/${tokoid}/reseller`);
+    const { data } = response.data;
+    this.tokoinfo = data;
+    this.seller = tokoid;
+    this.skeletonInformation = false;
+
+    $store.dispatch('shoppingcart/setTokoInfo', data);
+  },
+  handleScroll() {
+    let sticky = this.$refs.sticky_search.offsetTop + 100;
+
+    if (window.pageYOffset > sticky) {
+      this.$refs.sticky_search.classList.add('sticky-search');
+    } else {
+      this.$refs.sticky_search.classList.remove('sticky-search');
+    }
   },
 };
 

@@ -1,24 +1,7 @@
 <template>
   <div class="fixed-banner">
-    <div class="overlay"></div>
-    <div class="back">
-      <a :href="backlink">
-        <font-awesome-icon icon="chevron-left" /> Kembali
-      </a>
-    </div>
-    <div class="title pad-36">
-      <h5>{{ title }}</h5>
-    </div>
-    <div class="img-banner">
-      <img
-        v-if="img"
-        :src="img"
-        alt="image banner"
-        :style="`height: ${height}px`"
-      />
-      <template v-else>
-        <div class="imageSkeleton"></div>
-      </template>
+    <div class="banner">
+      {{ title }}
     </div>
   </div>
 </template>
@@ -57,79 +40,26 @@ export default {
   position: sticky;
   top: 0;
 
-  .overlay {
-    position: absolute;
-    display: block;
-    background: rgba($color: #000000, $alpha: 0.2);
-    height: 100%;
-    width: 100%;
-  }
-  .back {
-    position: absolute;
-    left: 36px;
-    top: 28px;
-    a {
-      text-decoration: none;
-      color: white;
+  .banner {
+    height: 100px;
+    background: #22c1c3; /* fallback for old browsers */
+    background: -webkit-linear-gradient(
+      to right,
+      #fdbb2d,
+      #22c1c3
+    ); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(
+      to right,
+      #fdbb2d,
+      #22c1c3
+    ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-      @media screen and (max-width: 374px) {
-        font-size: 12px;
-      }
-
-      i {
-        font-weight: bold;
-      }
-    }
-  }
-
-  .title {
-    position: absolute;
-    top: 50%;
-    bottom: 50%;
-    left: 0px;
-    right: 0px;
-    margin: 0 auto;
-    text-align: center;
-    h5 {
-      font-size: 20px;
-      font-weight: bold;
-      color: #fff;
-
-      @media screen and (max-width: 374px) {
-        font-size: 20px;
-      }
-    }
-  }
-
-  .img-banner {
-    img {
-      width: 100%;
-      object-fit: cover;
-
-      @media screen and (max-width: 320px) {
-        width: 100% !important;
-        height: auto !important;
-      }
-
-      @media screen and(min-width: 321px) and (max-width: 375px) {
-        width: 100% !important;
-        height: auto !important;
-      }
-
-      @media screen and(min-width: 376px) and (max-width: 480px) {
-        width: 100% !important;
-        height: auto !important;
-      }
-    }
-  }
-}
-
-.imageSkeleton {
-  background: #eeeeee;
-  height: 200px;
-
-  @media screen and (max-width: 480px) {
-    height: 150px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #fff;
+    font-weight: 500;
+    font-size: 16px;
   }
 }
 </style>

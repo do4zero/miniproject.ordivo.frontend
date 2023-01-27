@@ -28,6 +28,27 @@ import {
   faHome,
   faList,
   faChevronCircleRight,
+  faShoppingCart,
+  faCartPlus,
+  faSearch,
+  faShoppingBag,
+  faListAlt,
+  faQuestion,
+  faBook,
+  faPlus,
+  faMinus,
+  faShoppingBasket,
+  faTrash,
+  faScroll,
+  faUser,
+  faEdit,
+  faMapMarker,
+  faMapMarkerAlt,
+  faDollarSign,
+  faNotesMedical,
+  faPaperPlane,
+  faShareAlt,
+  faWindowClose,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -52,6 +73,28 @@ library.add(faCrosshairs);
 library.add(faHome);
 library.add(faList);
 library.add(faChevronCircleRight);
+library.add(faShoppingCart);
+library.add(faSearch);
+library.add(faShoppingBag);
+library.add(faListAlt);
+library.add(faQuestion);
+library.add(faBook);
+library.add(faCartPlus);
+library.add(faMinus);
+library.add(faPlus);
+library.add(faShoppingBasket);
+library.add(faTrash);
+library.add(faScroll);
+library.add(faUser);
+library.add(faEdit);
+library.add(faMapMarker);
+library.add(faMapMarkerAlt);
+library.add(faDollarSign);
+library.add(faNotesMedical);
+library.add(faPaperPlane);
+library.add(faShareAlt);
+library.add(faWindowClose);
+
 // Register the component globally
 Vue.component('sized-box', SizedBox);
 Vue.component('vue-skeleton-loader', VueSkeletonLoader);
@@ -93,6 +136,8 @@ Vue.use(VModal, {
 
 // Google Maps
 import * as VueGoogleMaps from 'vue2-google-maps';
+import lib from 'qrcode';
+
 Vue.use(VueGoogleMaps, {
   load: {
     key: 'AIzaSyDd-Xv_wBoM5_oaEwAuDpIy_nTRCkKX2EI',
@@ -102,6 +147,35 @@ Vue.use(VueGoogleMaps, {
 
 Vue.mixin({
   methods: {
+    rp(amount, decimalCount = 2, decimal = ',', thousands = '.') {
+      try {
+        decimalCount = Math.abs(decimalCount);
+        decimalCount = isNaN(decimalCount) ? 2 : decimalCount;
+
+        const negativeSign = amount < 0 ? '-' : '';
+
+        let i = parseInt(
+          (amount = Math.abs(Number(amount) || 0).toFixed(
+            decimalCount
+          ))
+        ).toString();
+        let j = i.length > 3 ? i.length % 3 : 0;
+
+        return (
+          negativeSign +
+          (j ? i.substr(0, j) + thousands : '') +
+          i.substr(j).replace(/(\d{3})(?=\d)/g, '$1' + thousands) +
+          (decimalCount
+            ? decimal +
+              Math.abs(amount - i)
+                .toFixed(decimalCount)
+                .slice(2)
+            : '')
+        );
+      } catch (e) {
+        return 0;
+      }
+    },
     capitalize(s) {
       return s.toLowerCase().replace(/\b./g, function(a) {
         return a.toUpperCase();
@@ -151,6 +225,44 @@ Vue.mixin({
       ndays = (tv2 - tv1) / 1000 / 86400;
       ndays = Math.round(ndays - 0.5);
       return ndays;
+    },
+    calculateTotal(items) {
+      const priceTotal = items.reduce(function(acc, obj) {
+        return acc + obj.subtotal;
+      }, 0);
+
+      const qtyTotal = items.reduce(function(acc, obj) {
+        return acc + obj.qty;
+      }, 0);
+
+      return {
+        priceTotal,
+        qtyTotal,
+      };
+    },
+    // Add Chart
+    processChart(item, items, operator = 'plus', qtyParams = 1) {
+      let currentitems = items;
+      const index = currentitems.findIndex((x) => x.id === item.id);
+      const harga_jual = parseInt(item.harga_jual);
+      const qty =
+        index !== -1
+          ? operator === 'plus'
+            ? currentitems[index].qty + qtyParams
+            : currentitems[index].qty - qtyParams
+          : 1;
+      const subtotal = harga_jual * qty;
+
+      if (index !== -1) {
+        currentitems[index].qty = qty;
+        currentitems[index].subtotal = subtotal;
+        return currentitems;
+      }
+
+      item.qty = qty;
+      item.subtotal = subtotal;
+
+      return [...currentitems, item];
     },
   },
 });

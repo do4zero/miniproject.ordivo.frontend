@@ -1,6 +1,10 @@
 <template>
   <div class="accordion" id="paymentAccordion">
-    <div v-for="data in payments" :key="data.id" class="accordion-item">
+    <div
+      v-for="data in payments"
+      :key="data.id"
+      class="accordion-item"
+    >
       <h2 class="accordion-header" :id="data.id">
         <button
           class="accordion-button"
@@ -26,7 +30,9 @@
             class="box-payment"
             :class="{ 'is-active': activeId === item.id }"
             ref="payment"
-            @click="pickPayment(item.id, item.namaPembayaran, item.img_url)"
+            @click="
+              pickPayment(item.id, item.namaPembayaran, item.img_url)
+            "
           >
             <div class="img">
               <img :src="item.img_url" alt="" />
@@ -65,7 +71,10 @@ export default {
     ...mapState('transactions', ['paymentId']),
   },
   mounted() {
-    if (this.paymentId !== '' || typeof this.paymentId !== 'undefined') {
+    if (
+      this.paymentId !== '' ||
+      typeof this.paymentId !== 'undefined'
+    ) {
       this.activeId = this.paymentId;
     }
     this.getPaymentData();
