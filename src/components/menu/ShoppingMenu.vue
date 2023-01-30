@@ -20,6 +20,7 @@
               $emit('checkoutChart');
             }
           "
+          :disabled="skeleton"
         >
           Checkout
         </button>
@@ -96,6 +97,10 @@ export default {
     qty: {
       type: Number,
       default: () => 0,
+    },
+    skeleton: {
+      type: Boolean,
+      default: () => false,
     },
   },
   computed: {

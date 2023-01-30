@@ -5,7 +5,15 @@
         class="checkout"
         style="display:flex; justify-content: space-between; align-items:center; gap: 10px !important; width: 100%"
       >
-        <button class="btn-checkout" style="height:40px; flex: 1">
+        <button
+          class="btn-checkout"
+          style="height:40px; flex: 1"
+          @click="
+            () => {
+              $emit('pay');
+            }
+          "
+        >
           Pesan Sekarang
         </button>
       </div>

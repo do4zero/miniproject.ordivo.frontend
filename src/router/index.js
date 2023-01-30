@@ -36,27 +36,25 @@ const router = new VueRouter({
   routes,
 });
 
-router.beforeEach((to, from, next) => {
-  function makeid(length) {
-    let result = '';
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(
-        Math.floor(Math.random() * charactersLength)
-      );
-      counter += 1;
-    }
-    return result;
+function makeid(length) {
+  let result = '';
+  const characters =
+    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  const charactersLength = characters.length;
+  let counter = 0;
+  while (counter < length) {
+    result += characters.charAt(
+      Math.floor(Math.random() * charactersLength)
+    );
+    counter += 1;
   }
+  return result;
+}
 
+router.beforeEach((to, from, next) => {
   const { id } = $store.state.shoppingcart.orders;
 
   if (!id) {
-    console.log('masuk sini');
-
     const date = moment().format('DDMMYYYYhhmmss');
     const params = {
       id: date + makeid(10),
@@ -69,4 +67,20 @@ router.beforeEach((to, from, next) => {
   next();
 });
 
+router.afterEach((to, from) => {
+  const { tokoid } = to.params;
+  const { session } = $store.state.shoppingcart;
+
+  if (!session) {
+    if (tokoid) {
+      const date = moment().format('DDMMYYYYhhmmss');
+      const params = {
+        session_id: tokoid + '/' + date + '/' + makeid(20),
+        toko_id: tokoid,
+      };
+
+      $store.dispatch('shoppingcart/setUniqSession', params);
+    }
+  }
+});
 export default router;

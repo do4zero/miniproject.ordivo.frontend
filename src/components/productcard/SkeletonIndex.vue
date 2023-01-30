@@ -1,52 +1,76 @@
 <template>
-  <div
-    class="product-card-wrapper"
-    @click="
-      () => {
-        $router.push({
-          name: 'produk-detail',
-          params: {
-            tokoid: seller,
-            produkid: data.id,
-          },
-        });
-      }
-    "
-  >
+  <div class="product-card-wrapper">
     <div class="product-card">
       <div class="image">
-        <img
-          v-if="!this.imageError"
-          :src="data.images"
-          @error="onLoadError"
-          @load="onLoad"
-        />
-        <div class="noimage" v-else>
+        <div class="noimage">
           No Image
         </div>
       </div>
       <div class="body">
-        <div class="title">{{ data ? data.nama_produk : 0 }}</div>
+        <div class="title">
+          <skeleton
+            :theme="'opacity'"
+            :shape="'radius'"
+            :bg-color="'#dcdbdc'"
+          >
+            <tb-skeleton
+              :width="`100%`"
+              :aspect-ratio="0.1"
+            ></tb-skeleton>
+            <sized-box :height="5" />
+          </skeleton>
+        </div>
         <sized-box :height="15" />
         <div class="price">
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-6">
                 <div class="normal">
-                  Rp {{ data ? rp(data.harga_jual) : 0 }}
+                  <skeleton
+                    :theme="'opacity'"
+                    :shape="'radius'"
+                    :bg-color="'#dcdbdc'"
+                  >
+                    <tb-skeleton
+                      :width="`100%`"
+                      :aspect-ratio="0.1"
+                    ></tb-skeleton>
+                    <sized-box :height="5" />
+                  </skeleton>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="terjual">
-                  <div>0 terjual</div>
+                  <div style="padding: 0px 10px">
+                    <skeleton
+                      :theme="'opacity'"
+                      :shape="'radius'"
+                      :bg-color="'#dcdbdc'"
+                    >
+                      <tb-skeleton
+                        :width="`30%`"
+                        :aspect-ratio="0.1"
+                      ></tb-skeleton>
+                      <sized-box :height="5" />
+                    </skeleton>
+                  </div>
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-md-12">
                 <div class="discount">
-                  <span class="symbol">Rp</span>
-                  {{ data ? rp(data.harga_jual) : 0 }}
+                  <skeleton
+                    :theme="'opacity'"
+                    :shape="'radius'"
+                    :bg-color="'#dcdbdc'"
+                  >
+                    <tb-skeleton
+                      :width="`40%`"
+                      :aspect-ratio="0.05"
+                    ></tb-skeleton>
+                    <sized-box :height="5" />
+                  </skeleton>
                 </div>
               </div>
             </div>
@@ -58,31 +82,7 @@
 </template>
 
 <script>
-export default {
-  props: {
-    data: {
-      type: Object,
-      default: () => null,
-    },
-    seller: {
-      type: String,
-      default: () => '',
-    },
-  },
-  data() {
-    return {
-      imageError: false,
-    };
-  },
-  methods: {
-    onLoadError() {
-      this.imageError = true;
-    },
-    onLoad() {
-      this.imageError = false;
-    },
-  },
-};
+export default {};
 </script>
 
 <style lang="scss">

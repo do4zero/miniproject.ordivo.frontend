@@ -5,11 +5,7 @@
       <div class="main">
         <a
           href="javascript:void(0)"
-          @click="
-            () => {
-              $router.go(-1);
-            }
-          "
+          @click="back"
           class="topbar-back"
         >
           <font-awesome-icon icon="chevron-left" />
@@ -28,7 +24,10 @@
 
           <sized-box :height="140" />
         </div>
-        <MainMenu />
+        <MainMenu
+          @handleConfirmation="handleConfirmation"
+          :paymentPick="paymentPick"
+        />
       </div>
     </div>
   </div>
@@ -57,13 +56,18 @@ export default {
       ...Models,
     };
   },
-  mounted() {},
+  mounted() {
+    if (this.payments) {
+      this.paymentPick = this.payments;
+    }
+  },
   methods: {
     ...mapActions('transactions', ['resetForm']),
     ...Controllers,
   },
   computed: {
     ...mapState('shoppingcart', ['orders']),
+    ...mapState('payment', ['payments']),
   },
 };
 </script>

@@ -53,9 +53,9 @@
               <font-awesome-icon icon="plus" />
             </div>
           </div>
-          <div class="add-note">
+          <!-- <div class="add-note">
             <font-awesome-icon icon="edit" /> Catatan
-          </div>
+          </div> -->
         </div>
       </div>
     </div>

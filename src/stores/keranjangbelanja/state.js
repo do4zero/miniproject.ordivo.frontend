@@ -15,6 +15,7 @@ const initialState = () => ({
     qty: 0,
   },
   storeInfo: null,
+  session: null,
 });
 
 export default initialState;

@@ -8,6 +8,9 @@ const actions = {
   setUniqTransaction({ commit }, payload) {
     commit('SET_UNIQUE_TRANSACTION', payload);
   },
+  setUniqSession({ commit }, payload) {
+    commit('SET_UNIQUE_SESSION', payload);
+  },
   setTokoInfo({ commit }, payload) {
     commit('SET_STORE_INFO', payload);
   },

@@ -701,4 +701,10 @@
     }
   }
 }
+
+.right-skeleton {
+  .tb-skeleton {
+    float: right !important;
+  }
+}
 </style>

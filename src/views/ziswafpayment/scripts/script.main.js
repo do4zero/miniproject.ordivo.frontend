@@ -85,9 +85,6 @@ export default {
   },
   methods: {
     ...Controllers,
-    ...mapActions('transactions', [
-      'setPaymentResponse',
-      'setProduct',
-    ]),
+    ...mapActions('transactions', ['setPaymentResponse']),
   },
 };

@@ -14,7 +14,7 @@
               <div class="alamat-pengiriman">
                 <div class="header">
                   <font-awesome-icon icon="map-marker-alt" />
-                  Alamat Pengiriman
+                  Alamat Pengambilan / Pengiriman
                 </div>
                 <div class="body">
                   <div v-if="orders.address">
@@ -73,7 +73,40 @@
                   Pembayaran
                 </div>
                 <div class="body">
-                  <div class="alert alert-warning text-center">
+                  <div v-if="payments">
+                    <div class="body-alamat">
+                      <div
+                        class="edit-alamat"
+                        @click="
+                          () => {
+                            $router.push({
+                              name: 'metode-pembayaran',
+                              params: {
+                                tokoid: $route.params.tokoid,
+                                bookid: $route.params.bookid,
+                              },
+                            });
+                          }
+                        "
+                      >
+                        <font-awesome-icon icon="edit" />
+                      </div>
+                      <p class="name">
+                        {{ payments ? payments.paymentTitle : '' }}
+                      </p>
+                      <p class="address">
+                        <img
+                          :src="
+                            `/img/metpem/${
+                              payments ? payments.paymentImage : ''
+                            }`
+                          "
+                          height="30px"
+                        />
+                      </p>
+                    </div>
+                  </div>
+                  <div v-else class="alert alert-warning text-center">
                     Metode pembayaran belum ditentukan.<br />
                     <a
                       href="javascript:void(0)"
@@ -110,11 +143,38 @@
                   <ul class="rincian-pembayaran">
                     <li>
                       <span class="desc">Subtotal Produk</span>
-                      <span class="total">Rp 1.000</span>
+                      <span class="total"
+                        >Rp
+                        {{ orders ? rp(orders.priceTotal) : 0 }}</span
+                      >
+                    </li>
+                    <li>
+                      <span class="desc">Biaya Layanan</span>
+                      <span class="total"
+                        >Rp
+                        {{
+                          payments ? rp(payments.paymentAdmin) : 0
+                        }}</span
+                      >
+                    </li>
+                    <li>
+                      <hr />
                     </li>
                     <li>
                       <span class="desc">Total Pembayaran</span>
-                      <span class="total">Rp 1.000</span>
+                      <span class="total">
+                        Rp
+                        {{
+                          orders
+                            ? rp(
+                                orders.priceTotal +
+                                  (payments
+                                    ? payments.paymentAdmin
+                                    : 0)
+                              )
+                            : 0
+                        }}
+                      </span>
                     </li>
                   </ul>
                 </div>
@@ -123,7 +183,7 @@
           </div>
           <sized-box :height="140" />
         </div>
-        <MainMenu />
+        <MainMenu @pay="pay" />
       </div>
       <ModalAdress ref="modal_address" />
     </div>
@@ -159,9 +219,14 @@ export default {
   methods: {
     ...mapActions('transactions', ['resetForm']),
     ...Controllers,
+    ...mapActions('transactions', [
+      'setPaymentResponse',
+      'setProduct',
+    ]),
   },
   computed: {
     ...mapState('shoppingcart', ['orders']),
+    ...mapState('payment', ['payments']),
   },
 };
 </script>

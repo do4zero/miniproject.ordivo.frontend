@@ -14,24 +14,27 @@
               <div class="informasi-masjid">
                 <p class="thanks"><strong>Terima Kasih</strong></p>
                 <div class="alamat" style="text-align:center;">
-                  <span style="font-size:11px;">
-                    Anda telah berdonasi di program
-                  </span>
+                  Anda telah bertransaksi <br />
+                  di
+                  <strong>
+                    {{
+                      storeInfo
+                        ? storeInfo.shop.nama_toko
+                        : 'Toko Kami'
+                    }}
+                  </strong>
                   <br />
-                  <skeleton
-                    v-if="loading"
-                    :theme="'opacity'"
-                    :shape="'radius'"
-                    :bg-color="'#dcdbdc'"
-                  >
-                    <tb-skeleton
-                      :width="`100%`"
-                      :aspect-ratio="0.05"
-                    ></tb-skeleton>
-                  </skeleton>
-                  <span style="font-size:18px; color: #20D2A6" v-else>
-                    <strong>{{ detail ? detail.title : '' }}</strong>
-                  </span>
+                  <br />
+
+                  {{
+                    trxStatus
+                      ? trxStatus.status.toLowerCase(0) ===
+                          'waiting' ||
+                        trxStatus.status.toLowerCase(0) === 'failed'
+                        ? 'Silahkan selesaikan pembayaran transaksi anda'
+                        : ''
+                      : 'Silahkan selesaikan pembayaran transaksi anda'
+                  }}
                 </div>
               </div>
             </div>
@@ -44,7 +47,7 @@
                 </div>
 
                 <div class="label">
-                  <span style="font-size:12px">Jumlah INFAQ</span>
+                  <span style="font-size:12px">Total Transaksi</span>
                   <br />Rp
                   {{ response.amount | numeral('0,0') | rupiah }}
                 </div>
@@ -59,7 +62,9 @@
                     v-else
                     :class="
                       trxStatus
-                        ? trxStatus.status === 'unverified'
+                        ? trxStatus.status.toLowerCase(0) ===
+                            'waiting' ||
+                          trxStatus.status.toLowerCase(0) === 'failed'
                           ? 'red'
                           : 'green'
                         : 'red'
@@ -67,7 +72,9 @@
                   >
                     {{
                       trxStatus
-                        ? trxStatus.status === 'unverified'
+                        ? trxStatus.status.toLowerCase(0) ===
+                            'waiting' ||
+                          trxStatus.status.toLowerCase(0) === 'failed'
                           ? 'Belum Dibayar'
                           : 'Sudah Dibayar'
                         : 'Belum Dibayar'
@@ -107,7 +114,11 @@
                   <div v-if="response">
                     <img
                       class="metode-pembayaran"
-                      :src="response ? img_url : ''"
+                      :src="
+                        payments
+                          ? `/img/metpem/${payments.paymentImage}`
+                          : ''
+                      "
                     />
                     <span class="product_name">{{
                       response.produk_name
@@ -168,57 +179,14 @@
                 <p>Loading ...</p>
               </template>
             </div>
-            <!-- <sized-box :height="15" />
-          <div class="" style="padding:10px;" v-if="note">
-            <div class="scan">
-              Harap Masukan data kedalam form untuk mendapatkan bukti pembayaran
-            </div>
-            <sized-box :height="15" />
-            <label style="font-size: 13px;color:#555">Nama</label>
-            <div ><input type="text" v-model="username" name="nama" class="form-control" />
-                <div
-                    style="color:red;font-size:11px"
-                    v-if="$v.username.$dirty && !$v.username.required"
-                  >
-                    Nama harus diisi
-                  </div>
-                  </div>
-            <label style="font-size: 13px;color:#555">Email / Nomor Handphone</label>
-            <div ><input type="text" name="emailphone" v-model="emailphone" class="form-control" />
-                  <div
-                    style="color:red;font-size:11px"
-                    v-if="$v.emailphone.$dirty && !$v.emailphone.required"
-                  >
-                    Email / Nomor Handphone harus diisi
-                  </div>
-            </div>
-              <div class="spacer"></div>
-              <a v-if="statusPembayaran.status === 'verified'"
-              href="javascript:void(0)"
-                @click="sendStruk"
-                class="btn btn-success " style="display: block; position: relative; margin: 0px auto;"
-              >
-                Kirim Bukti Pembayaran
-              </a>
-              <a v-if="statusPembayaran.status === 'unverified'"
-              href="#"
-                class="btn btn-success disabled" style="display: block; position: relative; margin: 0px auto;"
-              >
-                Kirim Bukti Pembayaran
-              </a>
-            </div> -->
             <sized-box :height="15" />
             <a
               class="btn btn-outline"
               href="javascript:void(0)"
               style="display:block; position:relative; margin: 0 auto;"
-              @click="
-                () => {
-                  $router.push({ name: 'home' });
-                }
-              "
+              @click="belanjaLagi"
             >
-              <i class="fa fa-map"></i> Kembali
+              <i class="fa fa-map"></i> Belanja Produk Lainnya
             </a>
             <sized-box :height="15" />
           </div>
@@ -231,16 +199,13 @@
 <script>
 import { mapState } from 'vuex';
 import VueQrcode from 'vue-qrcode';
-import SizedBox from '../../../../../components/SizedBox.vue';
-import axios from '@/utils/api';
-// import axiosziswaf from '../../../../../utils/api';
-// import { required, email } from 'vuelidate/lib/validators';
+import pos from '@/utils/pos';
+import $store from '@/stores/index';
 
 export default {
   name: 'qrisResponse',
   components: {
     VueQrcode,
-    SizedBox,
   },
   data() {
     return {
@@ -257,20 +222,11 @@ export default {
       img_url: null,
     };
   },
-  // validations: {
-  //   username: {
-  //     required,
-  //   },
-  //   emailphone: {
-  //     required,
-  //   }
-  // },
   mounted() {
     window.scrollTo(0, 0);
     const { id } = this.$router.history.current.params;
     this.response = this.paymentResponse;
     this.cekTransaksi(this.response.trxid);
-    this.fetchOne();
   },
   computed: {
     ...mapState('transactions', [
@@ -278,60 +234,20 @@ export default {
       'masjid',
       'currentRoute',
     ]),
+    ...mapState('payment', ['payments']),
+    ...mapState('shoppingcart', ['storeInfo', 'session']),
   },
   methods: {
     handleClick() {},
-    // checkEmailOrPhone(value){
-    //   if (value.match(/^([\[\(])?(?:(\+62)|62|0)\1? ?-? ?8(?!0|4|6)\d(?!0)\d\1? ?-? ?\d{3,4} ?-? ?\d{3,5}(?: ?-? ?\d{3})?\b/g)) {
-    //     return 'phone';
-    //   }else{
-    //     return 'email';
-    //   }
-    // },
-    // async sendStruk(){
-    //   this.$v.$touch();
-    //   if (this.$v.$invalid) {
-    //     this.submitStatus = 'ERROR';
-    //     this.submitStatus = false;
-    //   } else {
-    //     let typeData = this.checkEmailOrPhone(this.emailphone);
-
-    //     let result = '';
-    //     if(typeData == 'phone'){
-    //       result = await axiosziswaf.get('/default/sndstruk?id=' + this.response.trxid + '&username=' + this.username + '&phone=' + this.emailphone);
-    //     }else{
-    //       result = await axiosziswaf.get('/default/sndstruk?id=' + this.response.trxid + '&username=' + this.username + '&email=' + this.emailphone);
-    //     }
-
-    //     if( result !== null && result.data.rc === 200){
-    //       this.$swal('Berhasil Mengirim bukti pembayaran');
-    //     }else{
-    //       this.$swal(result.data.msg);
-    //     }
-    //   }
-    // },
     async cekTransaksi(id) {
       this.trxLoading = true;
-      const response = await axios.get(
-        `cektransaksi?no_transaksi=${id}`
-      );
+      const response = await pos.post(`/micro/cektransaksi`, {
+        invref: id,
+      });
       const data = response.data.data;
-
       this.statusPembayaran = response.data.data;
-
-      if (this.statusPembayaran.status === 'unverified') {
-        this.note = true;
-      }
-
-      if (this.statusPembayaran.status === 'verified') {
-        // this.$router.push({
-        //   name: `/bukti-pembayaran/${data.trxid}`,
-        // });
-      }
-
       this.trxStatus = data;
       this.trxLoading = false;
-      this.img_url = data.url_icon_pembayaran;
     },
     onCopy: function(e) {
       this.$toasted
@@ -343,19 +259,25 @@ export default {
     onError: function(e) {
       alert(`Failed to copy the text to the clipboard${e}`);
     },
-    async fetchOne() {
-      const { id } = this.$router.history.current.params;
-      this.loading = true;
-      const detail = await axios.get(
-        `/new-microsite/detail-campaign?id=${id}`
-      );
-      this.detail = detail.data.data;
-      this.loading = false;
+    belanjaLagi() {
+      const { shop } = this.storeInfo;
+      const { toko_id } = this.session;
+      if (shop) {
+        $store.dispatch('shoppingcart/resetOrders');
+        $store.dispatch('payment/resetPayment');
+
+        this.$router.push({
+          name: 'produk',
+          params: {
+            tokoid: toko_id,
+          },
+        });
+      }
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-@import '../../../scss/payment-pick-nominal';
+@import '../../../../views/scss/payment-pick-nominal';
 </style>

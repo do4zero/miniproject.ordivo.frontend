@@ -32,14 +32,27 @@
               <div class="container-fluid">
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="title">
+                    <div class="title" v-if="!skeleton">
                       {{ product ? product.nama_produk : '' }}
                     </div>
+                    <template v-else>
+                      <skeleton
+                        :theme="'opacity'"
+                        :shape="'radius'"
+                        :bg-color="'#dcdbdc'"
+                      >
+                        <tb-skeleton
+                          :width="`100%`"
+                          :aspect-ratio="0.05"
+                        ></tb-skeleton>
+                        <sized-box :height="5" />
+                      </skeleton>
+                    </template>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="nprice">
+                    <div class="nprice" v-if="!skeleton">
                       Rp
                       {{
                         product
@@ -47,14 +60,46 @@
                           : ''
                       }}
                     </div>
+                    <template v-else>
+                      <sized-box :height="10" />
+                      <skeleton
+                        :theme="'opacity'"
+                        :shape="'radius'"
+                        :bg-color="'#dcdbdc'"
+                      >
+                        <tb-skeleton
+                          :width="`40%`"
+                          :aspect-ratio="0.1"
+                        ></tb-skeleton>
+                        <sized-box :height="5" />
+                      </skeleton>
+                    </template>
                   </div>
                   <div class="col-md-6">
-                    <div class="terjual">0 Terjual</div>
+                    <div class="terjual" v-if="!skeleton">
+                      0 Terjual
+                    </div>
+                    <template v-else>
+                      <sized-box :height="10" />
+                      <div class="right-skeleton">
+                        <skeleton
+                          :theme="'opacity'"
+                          :shape="'radius'"
+                          :bg-color="'#dcdbdc'"
+                        >
+                          <tb-skeleton
+                            :width="`70%`"
+                            :aspect-ratio="0.1"
+                          ></tb-skeleton>
+                          <sized-box :height="5" />
+                        </skeleton>
+                      </div>
+                    </template>
                   </div>
                 </div>
                 <div class="row">
                   <div class="col-md-6">
-                    <div class="sprice">
+                    <div class="sprice" v-if="!skeleton">
                       Rp
                       {{
                         product
@@ -62,12 +107,41 @@
                           : ''
                       }}
                     </div>
+                    <template v-else>
+                      <sized-box :height="10" />
+                      <skeleton
+                        :theme="'opacity'"
+                        :shape="'radius'"
+                        :bg-color="'#dcdbdc'"
+                      >
+                        <tb-skeleton
+                          :width="`70%`"
+                          :aspect-ratio="0.1"
+                        ></tb-skeleton>
+                        <sized-box :height="5" />
+                      </skeleton>
+                    </template>
                   </div>
                   <div class="col-md-6">
-                    <div class="stok">
+                    <div class="stok" v-if="!skeleton">
                       {{ product ? product.stok : 0 }}
                       <strong>Stok Tersedia</strong>
                     </div>
+                    <template v-else>
+                      <div class="right-skeleton">
+                        <skeleton
+                          :theme="'opacity'"
+                          :shape="'radius'"
+                          :bg-color="'#dcdbdc'"
+                        >
+                          <tb-skeleton
+                            :width="`70%`"
+                            :aspect-ratio="0.05"
+                          ></tb-skeleton>
+                          <sized-box :height="5" />
+                        </skeleton>
+                      </div>
+                    </template>
                   </div>
                 </div>
               </div>
@@ -82,15 +156,39 @@
                     <div class="title-desc">Deskripsi produk</div>
                     <sized-box :height="10" />
                     <div class="content-desc">
-                      <template v-if="product">
-                        <div v-html="product.desc"></div>
+                      <template v-if="!skeleton">
+                        <template v-if="product">
+                          <div v-html="product.desc"></div>
+                        </template>
+                        <div
+                          class="alert alert-warning text-center"
+                          v-else
+                        >
+                          Tidak ada deskripsi produk.
+                        </div>
                       </template>
-                      <div
-                        class="alert alert-warning text-center"
-                        v-else
-                      >
-                        Tidak ada deskripsi produk.
-                      </div>
+                      <template v-else>
+                        <skeleton
+                          :theme="'opacity'"
+                          :shape="'radius'"
+                          :bg-color="'#dcdbdc'"
+                        >
+                          <tb-skeleton
+                            :width="`80%`"
+                            :aspect-ratio="0.02"
+                          ></tb-skeleton>
+                          <sized-box :height="10" />
+                          <tb-skeleton
+                            :width="`60%`"
+                            :aspect-ratio="0.02"
+                          ></tb-skeleton>
+                          <sized-box :height="10" />
+                          <tb-skeleton
+                            :width="`70%`"
+                            :aspect-ratio="0.02"
+                          ></tb-skeleton>
+                        </skeleton>
+                      </template>
                     </div>
                   </div>
                 </div>
@@ -103,6 +201,7 @@
           @addToCart="addToCart"
           @checkoutChart="checkoutChart"
           :qty="orders.qtyTotal > 0 ? orders.qtyTotal : 0"
+          :skeleton="skeleton"
         />
       </div>
     </div>

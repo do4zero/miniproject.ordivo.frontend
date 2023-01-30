@@ -51,13 +51,22 @@
           <sized-box :height="20" />
 
           <div class="row">
-            <template v-if="products">
+            <template v-if="!skeletonProduct">
               <div
                 class="col-md-6"
                 v-for="product in products"
                 :key="product.id"
               >
                 <ProductCard :data="product" :seller="seller" />
+              </div>
+            </template>
+            <template v-else>
+              <div
+                class="col-md-6"
+                v-for="(_, index) in 6"
+                :key="index"
+              >
+                <SkeletonCard />
               </div>
             </template>
           </div>
@@ -77,6 +86,7 @@ import MainMenu from '@/components/menu/MainMenu.vue';
 
 // @ is an alias to /src
 import ProductCard from '@/components/productcard/Index.vue';
+import SkeletonCard from '@/components/productcard/SkeletonIndex.vue';
 import { mapActions } from 'vuex';
 
 // import scripts
@@ -87,7 +97,7 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'Home',
-  components: { ProductCard, FixedBanner, MainMenu },
+  components: { ProductCard, SkeletonCard, FixedBanner, MainMenu },
   data() {
     return {
       ...Models,
