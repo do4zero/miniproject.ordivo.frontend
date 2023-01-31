@@ -132,6 +132,12 @@ export default {
     .image {
       height: 180px;
       background: #ccc;
+      overflow: hidden;
+
+      img {
+        object-fit: cover;
+        width: 100%;
+      }
 
       @include mobile-s {
         height: 130px;
