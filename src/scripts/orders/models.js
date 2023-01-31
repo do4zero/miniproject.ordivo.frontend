@@ -7,6 +7,7 @@ const Models = {
     paymentImage: '',
     paymentGroup: '',
   },
+  picked: '',
 };
 
 export { Models };

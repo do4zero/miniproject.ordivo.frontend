@@ -707,4 +707,24 @@
     float: right !important;
   }
 }
+
+.label {
+  .qr {
+    padding: 10px 0px 0px 0px;
+    img {
+      display: block;
+      position: relative;
+      margin: 0 auto;
+
+      @include mobile-m {
+        max-width: 280px !important;
+      }
+
+      @include mobile-s {
+        max-width: 230px !important;
+        font-size: 11px;
+      }
+    }
+  }
+}
 </style>

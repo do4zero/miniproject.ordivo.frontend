@@ -29,6 +29,15 @@ const mutations = {
       qtyTotal: 0,
     };
   },
+  SET_SHOP_ADDRESS(state, payload) {
+    state.shopAddress = payload;
+  },
+  SET_BUYER_ADDRESS(state, payload) {
+    state.buyerAddress = payload;
+  },
+  SET_SHIPPING(state, payload) {
+    state.shipping = payload;
+  },
 };
 
 export default mutations;

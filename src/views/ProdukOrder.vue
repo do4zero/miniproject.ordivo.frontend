@@ -16,28 +16,40 @@
                   <font-awesome-icon icon="map-marker-alt" />
                   Alamat Pengambilan / Pengiriman
                 </div>
+                <div style="display:flex; gap: 10px">
+                  <div class="radio-picked">
+                    <input
+                      type="radio"
+                      id="one"
+                      value="diambil"
+                      v-model="picked"
+                      @change="pickShipping"
+                    />&nbsp;<label for="one">Diambil Di Toko</label>
+                  </div>
+                  <div class="radio-picked">
+                    <input
+                      type="radio"
+                      id="two"
+                      value="dikirim"
+                      v-model="picked"
+                      @change="pickShipping"
+                    />&nbsp;<label for="two">Dikirim</label>
+                  </div>
+                </div>
                 <div class="body">
-                  <div v-if="orders.address">
-                    <div class="body-alamat">
-                      <div class="edit-alamat" @click="addAddress">
-                        <font-awesome-icon icon="edit" />
-                      </div>
-                      <p class="name">{{ orders.address.name }}</p>
-                      <p class="phone-email">
-                        {{ orders.address.phone }} ,
-                        {{ orders.address.email }}
-                      </p>
-                      <p class="address">
-                        {{ orders.address.address }}
-                      </p>
-                    </div>
-                  </div>
-                  <div v-else class="alert alert-warning text-center">
-                    Alamat belum ditentukan.<br />
-                    <a href="javascript:void(0)" @click="addAddress">
-                      Atur alamat pengiriman
-                    </a>
-                  </div>
+                  <template v-if="picked === 'diambil'">
+                    <Address
+                      :address="shopAddress"
+                      @addAddress="addAddress"
+                    />
+                  </template>
+                  <template v-else>
+                    <Address
+                      :address="buyerAddress"
+                      @addAddress="addAddress"
+                      type="dikirim"
+                    />
+                  </template>
                 </div>
               </div>
             </div>
@@ -194,6 +206,7 @@
 import MainMenu from '@/components/menu/CheckoutMenu.vue';
 import CartCard from '@/components/productcard/CartCard.vue';
 import ModalAdress from '@/components/modal/Address.vue';
+import Address from '@/components/address/Index.vue';
 
 // @ is an alias to /src
 import { mapActions } from 'vuex';
@@ -209,13 +222,17 @@ export default {
     MainMenu,
     CartCard,
     ModalAdress,
+    Address,
   },
   data() {
     return {
       ...Models,
     };
   },
-  mounted() {},
+  mounted() {
+    this.initialShippingAddress();
+    this.picked = this.shipping;
+  },
   methods: {
     ...mapActions('transactions', ['resetForm']),
     ...Controllers,
@@ -225,7 +242,12 @@ export default {
     ]),
   },
   computed: {
-    ...mapState('shoppingcart', ['orders']),
+    ...mapState('shoppingcart', [
+      'orders',
+      'shipping',
+      'shopAddress',
+      'buyerAddress',
+    ]),
     ...mapState('payment', ['payments']),
   },
 };
@@ -508,6 +530,14 @@ export default {
   .address {
     font-size: 14px;
     padding: 5px 0px;
+  }
+}
+
+.radio-picked {
+  label {
+    position: relative;
+    font-size: 11px;
+    top: -2px;
   }
 }
 </style>

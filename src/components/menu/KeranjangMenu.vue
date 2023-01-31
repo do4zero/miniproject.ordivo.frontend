@@ -37,9 +37,9 @@
         </div>
         <div class="menu-block">
           <div class="menu-icon">
-            <font-awesome-icon icon="user" />
+            <font-awesome-icon icon="history" />
           </div>
-          Akun
+          Riwayat
         </div>
       </div>
     </div>

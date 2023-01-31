@@ -88,6 +88,37 @@ export default {
 <style lang="scss">
 @import '../../app.scss';
 
+@mixin mobile-s {
+  @media screen and (max-width: 320px) {
+    @content;
+  }
+}
+
+@mixin mobile-m {
+  @media screen and (min-width: 321px) and (max-width: 374px) {
+    @content;
+  }
+
+  @media screen and(min-width: 375px) and (max-width: 480px) {
+    @content;
+  }
+}
+
+@mixin mobile-l {
+  @media screen and(min-width: 481px) and (max-width: 768px) {
+    @content;
+  }
+  @media screen and(min-width: 769px) and (max-width: 820px) {
+    @content;
+  }
+}
+
+@mixin tablet {
+  @media screen and(min-width: 769px) and (max-width: 1024px) {
+    @content;
+  }
+}
+
 .product-card-wrapper {
   padding: 5px;
   cursor: pointer;
@@ -127,6 +158,16 @@ export default {
         -webkit-line-clamp: 2; /* number of lines to show */
         line-clamp: 2;
         -webkit-box-orient: vertical;
+
+        @include mobile-s {
+          font-size: 12px;
+          min-height: 33px;
+        }
+
+        @include mobile-m {
+          font-size: 15px;
+          min-height: 33px;
+        }
       }
 
       .price {

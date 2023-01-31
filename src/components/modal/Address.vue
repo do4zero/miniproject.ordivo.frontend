@@ -121,10 +121,8 @@ export default {
     },
   },
   mounted() {
-    if (this.orders.address) {
-      const {
-        address: { name, phone, email, address },
-      } = this.orders;
+    if (this.buyerAddress) {
+      const { name, phone, email, address } = this.buyerAddress;
       this.name = name;
       this.phone = phone;
       this.email = email;
@@ -132,7 +130,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('shoppingcart', ['orders']),
+    ...mapState('shoppingcart', ['buyerAddress']),
   },
   methods: {
     showModal() {
@@ -143,12 +141,16 @@ export default {
       this.$v.$touch();
 
       if (!this.$v.$invalid) {
-        $store.dispatch('shoppingcart/setAddress', {
+        const address = {
           name: this.name,
           email: this.email,
           phone: this.phone,
           address: this.address,
-        });
+        };
+
+        $store.dispatch('shoppingcart/setAddress', address);
+        $store.dispatch('shoppingcart/setBuyerAddress', address);
+
         this.$modal.hide('example');
       }
     },

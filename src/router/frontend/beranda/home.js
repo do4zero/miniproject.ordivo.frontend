@@ -4,6 +4,8 @@ import KeranjangBelanja from '@/views/KeranjangBelanja.vue';
 import OrderBelanja from '@/views/ProdukOrder.vue';
 import MetodePembayaran from '@/views/MetodePembayaran.vue';
 
+import OrderHistoryList from '@/views/OrderHistoryList.vue';
+
 import ResponseQRIS from '@/components/payment/response/QRIS/index.vue';
 import ResponseEMONEY from '@/components/payment/response/EMONEY/index.vue';
 import ResponseVA from '@/components/payment/response/VA/index.vue';
@@ -37,22 +39,28 @@ const HomeRoutes = [
   },
 
   {
-    path: '/store/transactions/response/qris/:id',
+    path: '/:tokoid/order-history-list',
+    name: 'order-history-list',
+    component: OrderHistoryList,
+  },
+
+  {
+    path: '/:tokoid/store/transactions/response/qris/:id',
     name: 'transactionResponseQRIS',
     component: ResponseQRIS,
   },
   {
-    path: '/store/transactions/response/emoney/:id',
+    path: '/:tokoid/store/transactions/response/emoney/:id',
     name: 'transactionResponseEMONEY',
     component: ResponseEMONEY,
   },
   {
-    path: '/store/transactions/response/setun/:id',
+    path: '/:tokoid/store/transactions/response/setun/:id',
     name: 'transactionResponseSETUN',
     component: ResponseSETUN,
   },
   {
-    path: '/store/transactions/response/va/:id',
+    path: '/:tokoid/store/transactions/response/va/:id',
     name: 'transactionResponseVA',
     component: ResponseVA,
   },

@@ -16,6 +16,9 @@ const initialState = () => ({
   },
   storeInfo: null,
   session: null,
+  shipping: 'diambil',
+  shopAddress: null,
+  buyerAddress: null,
 });
 
 export default initialState;

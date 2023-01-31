@@ -49,6 +49,7 @@ import {
   faPaperPlane,
   faShareAlt,
   faWindowClose,
+  faHistory,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -94,6 +95,7 @@ library.add(faNotesMedical);
 library.add(faPaperPlane);
 library.add(faShareAlt);
 library.add(faWindowClose);
+library.add(faHistory);
 
 // Register the component globally
 Vue.component('sized-box', SizedBox);
