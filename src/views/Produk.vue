@@ -71,7 +71,7 @@
             </template>
           </div>
 
-          <sized-box :height="100" />
+          <sized-box :height="130" />
 
           <MainMenu />
         </div>
