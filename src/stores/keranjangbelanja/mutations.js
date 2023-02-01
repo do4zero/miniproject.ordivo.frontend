@@ -16,18 +16,25 @@ const mutations = {
   SET_ADDRESS(state, payload) {
     state.orders.address = payload;
   },
+  RESET_ADDRESS(state, payload) {
+    state.orders.address = null;
+  },
   SET_STORE_INFO(state, payload) {
     state.storeInfo = payload;
   },
   RESET_ORDERS(state) {
-    state.orders = {
-      id: null,
-      date: null,
-      items: [],
-      address: null,
-      priceTotal: 0,
-      qtyTotal: 0,
-    };
+    state.orders.id = null;
+    state.orders.date = null;
+    state.orders.items = [];
+    state.orders.address = null;
+    state.orders.priceTotal = 0;
+    state.orders.qtyTotal = 0;
+  },
+  RESET_ORDERS_ONLY_ITEMS(state) {
+    state.orders.items = [];
+    state.orders.address = null;
+    state.orders.priceTotal = 0;
+    state.orders.qtyTotal = 0;
   },
   SET_SHOP_ADDRESS(state, payload) {
     state.shopAddress = payload;
@@ -37,6 +44,18 @@ const mutations = {
   },
   SET_SHIPPING(state, payload) {
     state.shipping = payload;
+  },
+  SET_SHOP_ORDER(state, payload) {
+    state.orders.toko_id = payload;
+  },
+  SET_SHOP_ID(state, payload) {
+    state.shop = payload;
+  },
+  SET_RECIPIENT_NAME(state, payload) {
+    state.recipient.name = payload;
+  },
+  SET_RECIPIENT_PHONE(state, payload) {
+    state.recipient.phone = payload;
   },
 };
 

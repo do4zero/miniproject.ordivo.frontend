@@ -1,6 +1,5 @@
 import pos from '@/utils/pos';
 import $store from '@/stores/index';
-import { post } from 'jquery';
 
 const Controllers = {
   addAddress() {
@@ -21,9 +20,37 @@ const Controllers = {
     $store.dispatch('shoppingcart/setShopAddress', address);
     $store.dispatch('shoppingcart/setAddress', address);
   },
+  changeName() {
+    $store.dispatch(
+      'shoppingcart/setRecipientName',
+      this.recipient_name
+    );
+  },
+  changePhone() {
+    $store.dispatch(
+      'shoppingcart/setRecipientPhone',
+      this.recipient_phone
+    );
+  },
   async pay() {
     this.skeleton = true;
     const store = this.$store.state;
+    const recipient = store.shoppingcart.recipient;
+
+    if (
+      !recipient.name ||
+      recipient.name == '' ||
+      !recipient.phone ||
+      recipient.phone == ''
+    ) {
+      this.$swal({
+        icon: 'error',
+        title: 'Lengkapi alamat pemesan',
+        text: 'Alamat pemesan anda belum lengkap.',
+      });
+
+      return false;
+    }
 
     if (store.shoppingcart.orders.items.length < 1) {
       this.$swal({
@@ -65,7 +92,8 @@ const Controllers = {
     const { id } = store.shoppingcart.storeInfo.shop;
     const { priceTotal, qtyTotal } = store.shoppingcart.orders;
     const { items } = store.shoppingcart.orders;
-    const { session_id, toko_id } = store.shoppingcart.session;
+    const { session_id } = store.shoppingcart.session;
+    const { toko_id } = store.shoppingcart.shop;
     const {
       address,
       name,
@@ -97,17 +125,27 @@ const Controllers = {
       order_id: orders.id,
       total_amount: parseInt(priceTotal),
       total_qty: parseInt(qtyTotal),
-      name: name,
-      address: address,
-      phone: phone,
-      email: email ? email : null,
+      shipper_name: name,
+      shipper_address: address,
+      shipper_phone: phone,
+      shipper_email: email ? email : null,
       trxid: data ? data.trxid : null,
       items: itemsorder,
       payment_response: JSON.stringify(data),
       payment_group: paymentGroup,
       payment_image: paymentImage,
+      referral_code: toko_id,
+      recipient_name: this.recipient_name
+        ? this.recipient_name
+        : null,
+      recipient_phone: this.recipient_phone
+        ? this.recipient_phone
+        : null,
     };
     const order = await pos.post(`/guest/save_order`, bodyOrder);
+
+    // reset orders
+    $store.dispatch('shoppingcart/resetOrdersOnlyItems');
 
     if (paymentGroup === 'QRIS') {
       this.$router.push({
@@ -163,6 +201,7 @@ const Controllers = {
           title: 'Pilih Alamat Pengiriman Barang',
           text: 'Alamat pengiriman barang belum ditentukan.',
         });
+        $store.dispatch('shoppingcart/resetAddress');
       } else {
         $store.dispatch('shoppingcart/setAddress', buyerAddress);
       }

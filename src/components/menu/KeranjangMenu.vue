@@ -48,6 +48,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import $store from '@/stores/index';
 
 export default {
   computed: {
@@ -55,12 +56,13 @@ export default {
   },
   methods: {
     redirect() {
+      const { tokoid, bookid } = this.$route.params;
       if (this.orders.items.length > 0) {
         this.$router.push({
           name: 'order-belanja',
           params: {
-            tokoid: this.$route.params.tokoid,
-            bookid: this.$route.params.bookid,
+            tokoid: tokoid,
+            bookid: bookid,
           },
         });
       } else {
@@ -70,6 +72,8 @@ export default {
           text: 'Belum ada produk yang anda pilih.',
         });
       }
+
+      $store.dispatch('shoppingcart/setShopOrders', tokoid);
     },
   },
 };

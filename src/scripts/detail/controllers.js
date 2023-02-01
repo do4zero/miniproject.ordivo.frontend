@@ -45,6 +45,7 @@ const Controllers = {
 
     $store.dispatch('shoppingcart/setOrders', newItem);
     $store.dispatch('shoppingcart/setTotal', total);
+    $store.dispatch('shoppingcart/setShopOrders', tokoid);
 
     this.$router.push({
       name: 'order-belanja',

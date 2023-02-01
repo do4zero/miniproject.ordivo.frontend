@@ -18,6 +18,8 @@ import PathNotFound from '@/views/PathNotFound';
 import $store from '@/stores/index';
 import moment from 'moment';
 
+import { v4 as uuidv4 } from 'uuid';
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -78,36 +80,53 @@ router.beforeEach(async (to, from, next) => {
     }
 
     const { session } = $store.state.shoppingcart;
-    const { id } = $store.state.shoppingcart.orders;
 
     if (!session) {
       if (tokoid) {
-        const date = moment().format('DDMMYYYYhhmmss');
         const params = {
-          session_id: tokoid + '-' + date + '-' + makeid(20),
-          toko_id: tokoid,
+          session_id: uuidv4(),
         };
 
-        const createSession = pos.post(`/guest/create_session`, {
-          session_id: params.session_id,
-          toko_id: tokoid,
-        });
-
-        console.log(createSession);
-
+        // Create Session To DB
+        await pos.post(`/guest/create_session`, params);
         $store.dispatch('shoppingcart/setUniqSession', params);
       }
     }
 
-    if (!id) {
-      const date = moment().format('DDMMYYYYhhmmss');
-      const params = {
-        id: date + makeid(10),
-        date: date,
-      };
+    // Set Toko Info
+    let tokoinfo = await pos.get(`/shop/${tokoid}/reseller`);
+    tokoinfo = tokoinfo.data.data;
 
-      $store.dispatch('shoppingcart/setUniqTransaction', params);
+    $store.dispatch('shoppingcart/setTokoInfo', tokoinfo);
+
+    // Set Shop Address
+    const shop = tokoinfo.shop;
+    const seller = tokoinfo.seller;
+    $store.dispatch('shoppingcart/setShopAddress', {
+      address: shop.alamat,
+      email: seller.email,
+      name: seller.fullname,
+      phone: seller.nohp,
+    });
+
+    const routeTokoid = tokoid;
+    const stateTokoid = $store.state.shoppingcart.shop
+      ? $store.state.shoppingcart.shop.toko_id
+      : null;
+    if (routeTokoid !== stateTokoid) {
+      // Reset Orders
+      $store.dispatch('shoppingcart/resetOrdersOnlyItems');
+
+      // Set Shop ID
+      $store.dispatch('shoppingcart/setShopId', {
+        toko_id: routeTokoid,
+      });
     }
+
+    $store.dispatch('shoppingcart/setUniqTransaction', {
+      id: uuidv4(),
+      date: moment().format('DDMMYYYYhhmmss'),
+    });
 
     next();
   }

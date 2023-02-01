@@ -19,12 +19,14 @@
         <div class="main-produk">
           <sized-box :height="40" />
           <div class="image">
-            <img
-              v-if="imageError"
-              :src="product ? product.images : ''"
-              @error="onLoadError"
-              @load="onLoad"
-            />
+            <div v-if="product">
+              <img
+                v-if="imageError"
+                :src="product ? product.images : ''"
+                @error="onLoadError"
+                @load="onLoad"
+              />
+            </div>
             <div v-else>No Image</div>
           </div>
           <div class="content">
@@ -293,6 +295,7 @@ export default {
     display: block;
     position: relative;
     margin: 0 auto;
+    width: 100%;
     height: 100vh - 25vh;
     object-fit: contain;
   }

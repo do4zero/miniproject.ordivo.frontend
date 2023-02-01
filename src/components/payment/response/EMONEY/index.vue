@@ -17,11 +17,7 @@
                   Anda telah bertransaksi <br />
                   di
                   <strong>
-                    {{
-                      storeInfo
-                        ? storeInfo.shop.nama_toko
-                        : 'Toko Kami'
-                    }}
+                    {{ nama_toko ? nama_toko : 'Toko Kami' }}
                   </strong>
                   <br />
                   <br />
@@ -32,7 +28,7 @@
                           'waiting' ||
                         trxStatus.status.toLowerCase(0) === 'failed'
                         ? 'Silahkan selesaikan pembayaran transaksi anda'
-                        : ''
+                        : 'Berikut adalah detail transaksi anda'
                       : 'Silahkan selesaikan pembayaran transaksi anda'
                   }}
                 </div>
@@ -44,6 +40,13 @@
                 <div class="label">
                   <span style="font-size:12px">Transaksi ID</span>
                   <br />{{ response.trxid || '' }}
+                </div>
+
+                <div class="label">
+                  <span style="font-size:12px"
+                    >Tanggal Transaksi</span
+                  >
+                  <br />{{ order_date ? order_date : '' }}
                 </div>
 
                 <div class="label">
@@ -208,7 +211,7 @@ export default {
       'currentRoute',
     ]),
     ...mapState('payment', ['payments']),
-    ...mapState('shoppingcart', ['storeInfo', 'session']),
+    ...mapState('shoppingcart', ['storeInfo', 'session', 'shop']),
   },
   methods: {
     handleClick() {},
@@ -222,6 +225,8 @@ export default {
       const orderid = data.order_id;
       this.img_url = data.payment_image;
       this.response = trx;
+      this.nama_toko = data.nama_toko;
+      this.order_date = data.order_date;
 
       const productResponse = await pos.get(
         `/shop/order/${orderid}/produk/list`
@@ -229,7 +234,6 @@ export default {
 
       this.product_items = productResponse.data.data;
       const openapp = await this.cekTransaksi(trx.trxid);
-      console.log(openapp);
       if (openapp.status.toLowerCase() === 'waiting') {
         this.call_deeplink(trx.landing_page);
       }
@@ -260,7 +264,7 @@ export default {
     },
     belanjaLagi() {
       const { shop } = this.storeInfo;
-      const { toko_id } = this.session;
+      const { toko_id } = this.shop;
       if (shop) {
         $store.dispatch('shoppingcart/resetOrders');
         $store.dispatch('payment/resetPayment');

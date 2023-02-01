@@ -9,6 +9,65 @@
 
         <div class="main-produk">
           <sized-box :height="40" />
+
+          <template v-if="orders.items.length > 0">
+            <div
+              class="content"
+              v-for="order in orders.items"
+              :key="order.id"
+            >
+              <CartCard :product="order" />
+            </div>
+          </template>
+
+          <div v-else class="content">
+            <div class="bg-white">
+              <div
+                class="alert alert-warning text-center"
+                style="margin: 0px;"
+              >
+                Anda belum memilih produk.
+              </div>
+            </div>
+          </div>
+
+          <div class="content">
+            <div class="bg-white">
+              <div class="alamat-pengiriman">
+                <div class="header">
+                  <font-awesome-icon icon="subway" /> Alamat Pemesan
+                </div>
+                <div class="form-group">
+                  <label for="recipient_name">
+                    Nama Pemesan <span style="color: red">*</span>
+                  </label>
+                  <div>
+                    <input
+                      v-model="recipient_name"
+                      class="form-control"
+                      placeholder="Isi nama pemesan disini"
+                      @keyup="changeName"
+                    />
+                  </div>
+                </div>
+                <sized-box :height="10" />
+                <div class="form-group">
+                  <label for="recipient_phone">
+                    Kontak Pemesan <span style="color: red">*</span>
+                  </label>
+                  <div>
+                    <input
+                      v-model="recipient_phone"
+                      class="form-control"
+                      placeholder="Isi kontak pemesan disini"
+                      @keyup="changePhone"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="content">
             <div class="bg-white">
               <div class="alamat-pengiriman">
@@ -51,27 +110,6 @@
                     />
                   </template>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          <template v-if="orders.items.length > 0">
-            <div
-              class="content"
-              v-for="order in orders.items"
-              :key="order.id"
-            >
-              <CartCard :product="order" />
-            </div>
-          </template>
-
-          <div v-else class="content">
-            <div class="bg-white">
-              <div
-                class="alert alert-warning text-center"
-                style="margin: 0px;"
-              >
-                Anda belum memilih produk.
               </div>
             </div>
           </div>
@@ -207,6 +245,7 @@ import MainMenu from '@/components/menu/CheckoutMenu.vue';
 import CartCard from '@/components/productcard/CartCard.vue';
 import ModalAdress from '@/components/modal/Address.vue';
 import Address from '@/components/address/Index.vue';
+import { required } from 'vuelidate/lib/validators';
 
 // @ is an alias to /src
 import { mapActions } from 'vuex';
@@ -232,6 +271,8 @@ export default {
   mounted() {
     this.initialShippingAddress();
     this.picked = this.shipping;
+    this.recipient_name = this.recipient.name;
+    this.recipient_phone = this.recipient.phone;
   },
   methods: {
     ...mapActions('transactions', ['resetForm']),
@@ -247,6 +288,7 @@ export default {
       'shipping',
       'shopAddress',
       'buyerAddress',
+      'recipient',
     ]),
     ...mapState('payment', ['payments']),
   },
@@ -538,6 +580,20 @@ export default {
     position: relative;
     font-size: 11px;
     top: -2px;
+  }
+}
+
+.form-group {
+  label {
+    font-size: 11px;
+  }
+
+  input {
+    font-size: 11px;
+  }
+
+  textarea {
+    font-size: 11px;
   }
 }
 </style>

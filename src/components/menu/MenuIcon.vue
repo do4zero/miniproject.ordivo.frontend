@@ -20,9 +20,7 @@
 import SizedBox from '../SizedBox.vue';
 export default {
   components: { SizedBox },
-  mounted() {
-    console.log(this.props.image);
-  },
+  mounted() {},
 };
 </script>
 

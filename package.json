@@ -30,6 +30,8 @@
     "sass-loader": "^10",
     "skeleton-loader-vue": "^1.0.10",
     "tb-skeleton": "^0.3.6",
+    "uuid": "^9.0.0",
+    "uuidv4": "^6.2.13",
     "v-select2-component": "^0.4.7",
     "vue": "^2.6.11",
     "vue-clipboard2": "^0.3.1",

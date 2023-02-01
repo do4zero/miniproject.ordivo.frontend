@@ -8,6 +8,8 @@ const Models = {
     paymentGroup: '',
   },
   picked: '',
+  recipient_name: null,
+  recipient_phone: null,
 };
 
 export { Models };

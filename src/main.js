@@ -50,6 +50,7 @@ import {
   faShareAlt,
   faWindowClose,
   faHistory,
+  faSubway,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -96,6 +97,7 @@ library.add(faPaperPlane);
 library.add(faShareAlt);
 library.add(faWindowClose);
 library.add(faHistory);
+library.add(faSubway);
 
 // Register the component globally
 Vue.component('sized-box', SizedBox);

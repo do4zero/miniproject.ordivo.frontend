@@ -7,18 +7,16 @@ const initialState = () => ({
     priceTotal: 0,
     qtyTotal: 0,
   },
-  product: {
-    id: null,
-    name: null,
-    price: 0,
-    discount: 0,
-    qty: 0,
-  },
   storeInfo: null,
   session: null,
+  shop: null,
   shipping: 'diambil',
   shopAddress: null,
   buyerAddress: null,
+  recipient: {
+    name: null,
+    phone: null,
+  },
 });
 
 export default initialState;

@@ -164,7 +164,6 @@ const Controllers = {
     );
     this.loading = false;
     this.dataProgram = detail.data.data;
-    console.log(detail.data.data);
   },
 };
 

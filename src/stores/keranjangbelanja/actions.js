@@ -17,8 +17,14 @@ const actions = {
   setAddress({ commit }, payload) {
     commit('SET_ADDRESS', payload);
   },
+  resetAddress({ commit }) {
+    commit('RESET_ADDRESS');
+  },
   resetOrders({ commit }) {
     commit('RESET_ORDERS');
+  },
+  resetOrdersOnlyItems({ commit }) {
+    commit('RESET_ORDERS_ONLY_ITEMS');
   },
   setShopAddress({ commit }, payload) {
     commit('SET_SHOP_ADDRESS', payload);
@@ -28,6 +34,19 @@ const actions = {
   },
   setShipping({ commit }, payload) {
     commit('SET_SHIPPING', payload);
+  },
+  setShopOrders({ commit }, payload) {
+    commit('SET_SHOP_ORDER', payload);
+  },
+  setShopId({ commit }, payload) {
+    // console.log(payload);
+    commit('SET_SHOP_ID', payload);
+  },
+  setRecipientName({ commit }, payload) {
+    commit('SET_RECIPIENT_NAME', payload);
+  },
+  setRecipientPhone({ commit }, payload) {
+    commit('SET_RECIPIENT_PHONE', payload);
   },
 };
 

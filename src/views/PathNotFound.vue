@@ -13,13 +13,13 @@
             class="btn btn-outline"
             href="javascript:void(0)"
             style="display:block; position:relative; margin: 0 auto;"
-            v-if="session"
+            v-if="shop"
             @click="
               () => {
                 $router.push({
                   name: 'produk',
                   params: {
-                    tokoid: session.toko_id,
+                    tokoid: shop.toko_id,
                   },
                 });
               }
@@ -62,7 +62,7 @@ export default {
     ...Controllers,
   },
   computed: {
-    ...mapState('shoppingcart', ['session']),
+    ...mapState('shoppingcart', ['session', 'shop']),
   },
 };
 </script>
