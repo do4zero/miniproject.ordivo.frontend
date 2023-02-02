@@ -7,7 +7,7 @@ const Models = {
     paymentImage: '',
     paymentGroup: '',
   },
-  picked: '',
+  picked: 'diambil',
   recipient_name: null,
   recipient_phone: null,
 };

@@ -19,14 +19,12 @@
         <div class="main-produk">
           <sized-box :height="40" />
           <div class="image">
-            <div v-if="product">
-              <img
-                v-if="imageError"
-                :src="product ? product.images : ''"
-                @error="onLoadError"
-                @load="onLoad"
-              />
-            </div>
+            <img
+              v-if="!imageError"
+              :src="product.images"
+              @error="onLoadError"
+              @load="onLoad"
+            />
             <div v-else>No Image</div>
           </div>
           <div class="content">

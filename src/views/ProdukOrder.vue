@@ -35,7 +35,7 @@
             <div class="bg-white">
               <div class="alamat-pengiriman">
                 <div class="header">
-                  <font-awesome-icon icon="subway" /> Alamat Pemesan
+                  <font-awesome-icon icon="subway" /> Data Pemesan
                 </div>
                 <div class="form-group">
                   <label for="recipient_name">

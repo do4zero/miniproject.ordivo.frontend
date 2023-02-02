@@ -17,63 +17,73 @@
         </a>
 
         <sized-box :height="40" />
-        <div
-          class="content"
-          v-for="product in products"
-          :key="product.id"
-          @click="
-            () => {
-              redirect({ ...product });
-            }
-          "
-        >
-          <div class="bg-white">
-            <div class="card-order">
-              <div class="order-id items">
-                <span class="label"><strong>Order ID</strong></span>
-                <span class="value">{{ product.trxid }}</span>
-              </div>
-              <div class="order-date items">
-                <span class="label"><strong>Trx Date</strong></span>
-                <span class="value">{{ product.order_date }}</span>
-              </div>
-              <div class="order-qty items">
-                <span class="label"><strong>Qty</strong></span>
-                <span class="value"
-                  >{{ product.total_qty }} items</span
-                >
-              </div>
-              <div class="order-amount items">
-                <span class="label"><strong>Amount</strong></span>
-                <span class="value"
-                  >Rp {{ rp(product.total_amount) }}</span
-                >
-              </div>
-              <div class="order-amount items">
-                <span class="label"><strong>Status</strong></span>
-                <span
-                  :class="
-                    `value ${
-                      product.status === 'WAITING' ||
-                      product.status === 'WAITING'
-                        ? 'red'
-                        : 'green'
-                    }`
-                  "
-                >
-                  {{
-                    product
-                      ? product.status.toLowerCase(0) === 'waiting' ||
-                        product.status.toLowerCase(0) === 'failed'
-                        ? 'Belum Dibayar'
-                        : 'Sudah Dibayar'
-                      : 'Belum Dibayar'
-                  }}</span
-                >
+        <template v-if="products">
+          <div
+            class="content"
+            v-for="product in products"
+            :key="product.id"
+            @click="
+              () => {
+                redirect({ ...product });
+              }
+            "
+          >
+            <div class="bg-white">
+              <div class="card-order">
+                <div class="order-id items">
+                  <span class="label"><strong>Order ID</strong></span>
+                  <span class="value">{{ product.trxid }}</span>
+                </div>
+                <div class="order-date items">
+                  <span class="label"><strong>Trx Date</strong></span>
+                  <span class="value">{{ product.order_date }}</span>
+                </div>
+                <div class="order-qty items">
+                  <span class="label"><strong>Qty</strong></span>
+                  <span class="value"
+                    >{{ product.total_qty }} items</span
+                  >
+                </div>
+                <div class="order-amount items">
+                  <span class="label"><strong>Amount</strong></span>
+                  <span class="value"
+                    >Rp {{ rp(product.total_amount) }}</span
+                  >
+                </div>
+                <div class="order-amount items">
+                  <span class="label"><strong>Status</strong></span>
+                  <span
+                    :class="
+                      `value ${
+                        product.status === 'WAITING' ||
+                        product.status === 'WAITING'
+                          ? 'red'
+                          : 'green'
+                      }`
+                    "
+                  >
+                    {{
+                      product
+                        ? product.status.toLowerCase(0) ===
+                            'waiting' ||
+                          product.status.toLowerCase(0) === 'failed'
+                          ? 'Belum Dibayar'
+                          : 'Sudah Dibayar'
+                        : 'Belum Dibayar'
+                    }}</span
+                  >
+                </div>
               </div>
             </div>
           </div>
-        </div>
+        </template>
+        <template v-else>
+          <div style="padding: 20px">
+            <div class="alert alert-warning text-center">
+              Anda belum melakukan transaksi
+            </div>
+          </div>
+        </template>
       </div>
     </div>
   </div>

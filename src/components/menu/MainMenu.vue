@@ -47,13 +47,15 @@ import $store from '@/stores/index';
 export default {
   methods: {
     bagikan() {
-      const { storeInfo } = this.$store.state.shoppingcart;
+      const {
+        nohp,
+      } = this.$store.state.shoppingcart.storeInfo.seller;
       const url =
-        'https://wa.me/?phone=' +
-        storeInfo.seller.nohp +
+        'https://api.whatsapp.com/send?phone=' +
+        nohp +
         '&text=' +
-        encodeURI('Assalamu"alaikum, saya mau bertanya...');
-      window.open(url, '_blank');
+        encodeURI('Assalamualaikum, saya mau bertanya...');
+      window.open(url, '_self');
     },
   },
 };

@@ -8,6 +8,7 @@ const Controllers = {
   initialShippingAddress() {
     const shop = $store.state.shoppingcart.storeInfo.shop;
     const seller = $store.state.shoppingcart.storeInfo.seller;
+    const { shipping } = $store.state.shoppingcart;
     const { fullname, nohp, email } = seller;
 
     const address = {
@@ -18,7 +19,10 @@ const Controllers = {
     };
 
     $store.dispatch('shoppingcart/setShopAddress', address);
-    $store.dispatch('shoppingcart/setAddress', address);
+    console.log(this.picked);
+    if (shipping == 'diambil') {
+      $store.dispatch('shoppingcart/setAddress', address);
+    }
   },
   changeName() {
     $store.dispatch(
@@ -45,8 +49,8 @@ const Controllers = {
     ) {
       this.$swal({
         icon: 'error',
-        title: 'Lengkapi alamat pemesan',
-        text: 'Alamat pemesan anda belum lengkap.',
+        title: 'Lengkapi data pemesan',
+        text: 'Data pemesan anda belum lengkap.',
       });
 
       return false;
@@ -100,6 +104,8 @@ const Controllers = {
       phone,
       email,
     } = store.shoppingcart.orders.address;
+    const { shipping } = $store.state.shoppingcart;
+
     const products = items.map((item) => {
       return { produk_id: item.id, qty: item.qty };
     });
@@ -141,6 +147,7 @@ const Controllers = {
       recipient_phone: this.recipient_phone
         ? this.recipient_phone
         : null,
+      shipping_type: shipping,
     };
     const order = await pos.post(`/guest/save_order`, bodyOrder);
 
