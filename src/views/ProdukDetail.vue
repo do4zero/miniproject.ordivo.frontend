@@ -4,6 +4,7 @@
     <div class="global-wrapper">
       <div class="main">
         <a
+          v-if="!$route.query.type"
           href="javascript:void(0)"
           @click="
             () => {
@@ -17,7 +18,7 @@
         </a>
 
         <div class="main-produk">
-          <sized-box :height="40" />
+          <sized-box v-if="!$route.query.type" :height="40" />
           <div class="image">
             <img
               v-if="!imageError"
@@ -231,7 +232,6 @@ export default {
   created() {
     this.loadProduk();
   },
-  mounted() {},
   methods: {
     ...mapActions('transactions', ['resetForm']),
     ...Controllers,

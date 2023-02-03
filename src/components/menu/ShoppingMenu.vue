@@ -111,7 +111,7 @@ export default {
       const { fullPath } = this.$router.currentRoute;
       const url =
         'https://wa.me/?text=' +
-        encodeURI(window.location.origin + fullPath);
+        encodeURI(window.location.origin + fullPath + '?type=share');
       window.open(url, '_blank');
     },
   },
