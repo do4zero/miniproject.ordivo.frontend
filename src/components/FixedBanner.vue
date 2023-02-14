@@ -42,16 +42,16 @@ export default {
 
   .banner {
     height: 100px;
-    background: #22c1c3; /* fallback for old browsers */
+    background: #e57049; /* fallback for old browsers */
     background: -webkit-linear-gradient(
       to right,
-      #fdbb2d,
-      #22c1c3
+      #e57049,
+      #f53d00
     ); /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(
       to right,
-      #fdbb2d,
-      #22c1c3
+      #e57049,
+      #e57049
     ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
     display: flex;

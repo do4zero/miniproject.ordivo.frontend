@@ -1,9 +1,268 @@
 <template>
-  <router-view />
+  <div id="app">
+    <router-view />
+  </div>
 </template>
 
 <style lang="scss">
 @import 'app.scss';
+
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap');
+@import './assets/scss/responsive.scss';
+
+body {
+  font-family: 'Ubuntu', sans-serif;
+  background-size: 100%;
+}
+
+.bg-wrapper {
+  font-family: 'Poppins', sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: white !important;
+  min-height: 100vh !important;
+  padding: 10px;
+}
+
+.white {
+  background: #fff !important;
+}
+
+.custom-dot-class,
+.testimoni-dot {
+  bottom: -30px !important;
+  .slick-active {
+    button {
+      &::before {
+        color: #5da6b1 !important;
+      }
+    }
+  }
+
+  button {
+    &::before {
+      font-size: 12px !important;
+    }
+  }
+}
+
+.custom-dot-class {
+  text-align: left !important;
+
+  @include mobile-s {
+    text-align: center !important;
+  }
+
+  @include mobile-m {
+    text-align: center !important;
+  }
+}
+
+.slide-testimoni {
+  .slick-list {
+    height: auto !important;
+    padding: 50px 0px 20px 0px !important;
+    @include mobile-s {
+      padding: 0px !important;
+    }
+    @include mobile-m {
+      padding: 0px !important;
+    }
+  }
+  transition: all 0.5s ease-in-out;
+
+  .up {
+    position: relative !important;
+    top: -50px !important;
+    @include mobile-s {
+      top: 0px !important;
+    }
+    @include mobile-m {
+      top: 0px !important;
+    }
+  }
+}
+
+.title {
+  @include mobile-s {
+    text-align: center;
+  }
+
+  @include mobile-m {
+    text-align: center;
+  }
+
+  @include mobile-l {
+    text-align: left;
+  }
+
+  h1 {
+    font-weight: bold;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    @include mobile-s {
+      font-size: 2rem;
+    }
+
+    @include mobile-m {
+      font-size: 2.5rem;
+    }
+
+    @include mobile-l {
+      font-size: 2.5rem;
+    }
+  }
+
+  p {
+    padding: 2 0px 0px;
+    @include mobile-s {
+      font-size: 0.9rem;
+    }
+
+    @include mobile-m {
+      font-size: 0.9rem;
+    }
+
+    @include mobile-l {
+      font-size: 0.8rem;
+    }
+  }
+}
+.store-center {
+  @include mobile-l {
+    text-align: center !important;
+  }
+}
+
+.store-small {
+  img {
+    display: inline-block;
+    height: 38px !important;
+    margin-right: 10px;
+
+    @include mobile-l {
+      height: 32px !important;
+      border: 1px solid black;
+    }
+  }
+}
+
+.store {
+  @media screen and (max-width: 320px) {
+    text-align: center;
+  }
+
+  @include mobile-m {
+    text-align: center;
+  }
+
+  @include mobile-l {
+    text-align: left;
+  }
+
+  img {
+    display: inline-block;
+    height: 65px;
+    margin-right: 10px;
+
+    @include mobile-s {
+      height: 38px;
+    }
+
+    @include mobile-m {
+      height: 45px;
+    }
+
+    @include mobile-l {
+      height: 40px;
+    }
+
+    @include tablet {
+      height: 40px;
+    }
+  }
+}
+
+.middle-center {
+  @include center;
+}
+
+.input-orange {
+  position: relative;
+
+  label {
+    position: absolute;
+    left: 10px;
+    top: -10px;
+    padding-right: 20px;
+    background: white;
+    font-size: 13px;
+    color: #5da6b1;
+  }
+
+  input,
+  select,
+  textarea {
+    border: 1px solid #5da6b1 !important;
+    font-size: 13px;
+    padding: 10px;
+    border-radius: 10px;
+  }
+}
+
+.readonly {
+  background-color: #fafafa !important;
+}
+
+.btn-orange {
+  background: #5da6b1 !important;
+  color: white !important;
+  border-radius: 10px !important;
+  padding-left: 80px !important;
+  padding-right: 80px !important;
+}
+
+.btn-grey {
+  background: #eeeeee !important;
+  color: #5da6b1 !important;
+  border-radius: 10px !important;
+  padding-left: 80px !important;
+  padding-right: 80px !important;
+}
+
+.my-otp-input {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .otp-input {
+    width: 60px !important;
+    height: 60px;
+    border-radius: 5px;
+    text-align: center;
+    border: 1px solid #eeeeee;
+  }
+
+  input:focus {
+    border: 1px solid #5da6b1 !important;
+  }
+
+  span {
+    width: 10px;
+    span {
+      display: none;
+    }
+  }
+}
+
+.error {
+  color: red;
+  font-size: 12px;
+  text-align: left !important;
+  padding: 5px 10px;
+}
 
 .topbar-back {
   color: #fff;
@@ -16,7 +275,7 @@
   z-index: 5;
   -webkit-transition: all 0.2s ease-in-out;
   transition: all 0.2s ease-in-out;
-  background-color: #ff8823;
+  background-color: #5da6b1;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -386,7 +645,7 @@
   width: 100%;
   text-align: center;
   border-radius: 0px !important;
-  background: #ff8823 !important;
+  background: #5da6b1 !important;
   color: #fff !important;
   border-radius: 50px !important;
   padding: 8px 0px !important;
@@ -463,9 +722,9 @@
       height: 100%;
       border: none;
       background: #fff;
-      border: 1px solid #ff8823;
+      border: 1px solid #5da6b1;
       border-radius: 5px;
-      color: #ff8823;
+      color: #5da6b1;
       font-weight: 500;
       @include mobile-s {
         font-size: 11px;
@@ -476,7 +735,7 @@
       width: 150px;
       height: 100%;
       border: none;
-      background: #ff8823;
+      background: #5da6b1;
       border-radius: 5px;
       color: #fff;
       font-weight: 500;
@@ -492,7 +751,7 @@
   width: 150px;
   height: 100%;
   border: none;
-  background: #ff8823;
+  background: #5da6b1;
   border-radius: 5px;
   color: #fff;
   font-weight: 500;
@@ -604,7 +863,7 @@
       }
 
       .price {
-        color: #ff8823;
+        color: #5da6b1;
         font-size: 12px;
         font-weight: 500;
 
@@ -723,6 +982,76 @@
       @include mobile-s {
         max-width: 230px !important;
         font-size: 11px;
+      }
+    }
+  }
+}
+
+.overlay-process {
+  position: fixed;
+  height: 100vh;
+  z-index: 999;
+  width: 100%;
+  max-width: 480px;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .wrapper-loading {
+    padding: 10px 20px;
+    background: #fff;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+}
+
+.carousel-control-next-icon,
+.carousel-control-prev-icon {
+  display: block !important;
+  background: #000;
+  border-radius: 50px;
+  width: 50px !important;
+  height: 35px !important;
+  background-size: 70% 70% !important;
+}
+
+.bx-white {
+  display: block;
+  background: #fff;
+  min-height: 50px;
+  padding: 10px;
+
+  .title {
+    font-weight: 600;
+    color: #0097a7;
+    font-size: 1.2rem;
+  }
+
+  .bx-category {
+    overflow: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    div {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      padding: 10px;
+      .image {
+        display: block;
+        height: 100px;
+        width: 100px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+      }
+
+      .title {
+        font-weight: normal;
+        font-size: 12px;
+        text-align: center;
       }
     }
   }

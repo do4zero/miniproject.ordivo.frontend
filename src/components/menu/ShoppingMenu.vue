@@ -165,7 +165,7 @@ export default {
     text-align: center;
     position: relative;
     &:hover {
-      background: #ff8823;
+      background: #5da6b1;
       color: #fff;
     }
 

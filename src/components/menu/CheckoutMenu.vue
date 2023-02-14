@@ -13,6 +13,7 @@
               $emit('pay');
             }
           "
+          :disabled="disabled"
         >
           Pesan Sekarang
         </button>
@@ -60,7 +61,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    disabled: {
+      type: Boolean,
+      default: () => false,
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 @mixin mobile-s {
@@ -110,7 +118,7 @@ export default {};
     border-radius: 5px;
     text-align: center;
     &:hover {
-      background: #ff8823;
+      background: #5da6b1;
       color: #fff;
     }
   }

@@ -7,6 +7,12 @@
           <div class="back-text">Checkout</div>
         </a>
 
+        <div class="overlay-process" v-if="submitLoading">
+          <div class="wrapper-loading">
+            Loading, please wait...
+          </div>
+        </div>
+
         <div class="main-produk">
           <sized-box :height="40" />
 
@@ -233,14 +239,14 @@
           </div>
           <sized-box :height="140" />
         </div>
-        <MainMenu @pay="pay" />
+        <MainMenu @pay="pay" :disabled="submitLoading" />
       </div>
       <ModalAdress ref="modal_address" />
     </div>
   </div>
 </template>
 
-<script>
+<script type="text/javascript">
 import MainMenu from '@/components/menu/CheckoutMenu.vue';
 import CartCard from '@/components/productcard/CartCard.vue';
 import ModalAdress from '@/components/modal/Address.vue';
@@ -418,7 +424,7 @@ export default {
       font-size: 10px;
       padding: 5px 0px;
       .price {
-        color: #ff8823;
+        color: #5da6b1;
         font-size: 12px;
         font-weight: 500;
       }

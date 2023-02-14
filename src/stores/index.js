@@ -6,6 +6,7 @@ import transactions from './transactions/index.js';
 import shoppingcart from './keranjangbelanja/index.js';
 import payment from './metodepembayaran/index.js';
 import storetransactions from './store_transactions/index.js';
+import register from './register/index';
 
 Vue.use(Vuex);
 
@@ -15,6 +16,7 @@ const store = new Vuex.Store({
     shoppingcart,
     payment,
     storetransactions,
+    register,
   },
   state: {
     token: localStorage.getItem('token'),

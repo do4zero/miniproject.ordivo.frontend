@@ -126,7 +126,7 @@ export default {
     border-radius: 5px;
     text-align: center;
     &:hover {
-      background: #ff8823;
+      background: #5da6b1;
       color: #fff;
     }
   }

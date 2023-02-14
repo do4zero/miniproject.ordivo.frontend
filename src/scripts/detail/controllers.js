@@ -1,12 +1,12 @@
-import pos from '@/utils/pos';
+import ordivo from '@/utils/ordivo';
 import $store from '@/stores/index';
 
 const Controllers = {
   async loadProduk() {
-    const { produkid } = this.$route.params;
+    const { tokoid, produkid } = this.$route.params;
     this.skeleton = true;
-    const response = await pos.get(
-      `/shop/${produkid}/products/detail`
+    const response = await ordivo.get(
+      `/api/shop/products/${tokoid}/${produkid}`
     );
     const { data } = response.data;
     this.product = data;
@@ -14,13 +14,7 @@ const Controllers = {
   },
   async addToCart() {
     const { orders } = $store.state.shoppingcart;
-    const {
-      selprod_id,
-      desc,
-      created_at,
-      updated_at,
-      ...item
-    } = this.product;
+    const { desc, created_at, updated_at, ...item } = this.product;
 
     const newItem = this.processChart(item, orders.items);
     const total = this.calculateTotal(newItem);
@@ -32,13 +26,7 @@ const Controllers = {
     const { tokoid } = this.$route.params;
     const { id } = $store.state.shoppingcart.orders;
     const { orders } = $store.state.shoppingcart;
-    const {
-      selprod_id,
-      desc,
-      created_at,
-      updated_at,
-      ...item
-    } = this.product;
+    const { desc, created_at, updated_at, ...item } = this.product;
 
     const newItem = this.processChart(item, orders.items);
     const total = this.calculateTotal(newItem);

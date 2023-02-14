@@ -144,7 +144,7 @@ export default {};
 
         .discount {
           font-weight: 600;
-          color: #ff8823;
+          color: #5da6b1;
           @include mobile-s {
             font-size: 13px;
           }

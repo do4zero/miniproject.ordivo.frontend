@@ -1,4 +1,5 @@
 import pos from '@/utils/pos';
+import ordivo from '@/utils/ordivo';
 import $store from '@/stores/index';
 
 const Controllers = {
@@ -6,7 +7,7 @@ const Controllers = {
   async loadProduk() {
     const { tokoid } = this.$route.params;
     this.skeletonProduct = true;
-    const response = await pos.get(`/shop/${tokoid}/products`);
+    const response = await ordivo.get(`/api/shop/products/${tokoid}`);
     const { data } = response.data;
     this.products = data;
     this.skeletonProduct = false;
@@ -14,7 +15,9 @@ const Controllers = {
   async loadTokoInformation() {
     const { tokoid } = this.$route.params;
     this.skeletonInformation = true;
-    const response = await pos.get(`/shop/${tokoid}/reseller`);
+    const response = await ordivo.get(
+      `/api/shop/information/${tokoid}`
+    );
     const { data } = response.data;
     this.tokoinfo = data;
     this.seller = tokoid;

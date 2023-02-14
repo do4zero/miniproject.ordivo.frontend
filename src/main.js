@@ -5,6 +5,12 @@ import VueSkeletonLoader from 'skeleton-loader-vue';
 import SizedBox from './components/SizedBox.vue';
 import Select2 from 'v-select2-component';
 import DatePicker from 'vue2-datepicker';
+import VueScrollTo from 'vue-scrollto';
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+
+// Import Bootstrap an BootstrapVue CSS files (order is important)
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 
 import $ from 'jquery';
 import 'jquery/src/jquery.js';
@@ -13,7 +19,6 @@ import 'vue2-datepicker/index.css';
 import 'bootstrap/dist/js/bootstrap.min.js';
 
 import 'bootstrap';
-import 'bootstrap/dist/css/bootstrap.min.css';
 import 'sweetalert2/dist/sweetalert2.min.css';
 
 // font awesome
@@ -51,6 +56,8 @@ import {
   faWindowClose,
   faHistory,
   faSubway,
+  faSortDown,
+  faSortUp,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 
@@ -98,6 +105,8 @@ library.add(faShareAlt);
 library.add(faWindowClose);
 library.add(faHistory);
 library.add(faSubway);
+library.add(faSortDown);
+library.add(faSortUp);
 
 // Register the component globally
 Vue.component('sized-box', SizedBox);
@@ -110,12 +119,30 @@ Vue.component(VueCountdown.name, VueCountdown);
 
 Vue.config.productionTip = false;
 
+// Make BootstrapVue available throughout your project
+Vue.use(BootstrapVue);
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin);
 Vue.use(Vuelidate);
 Vue.use(vueNumeralFilterInstaller, { locale: 'en-gb' });
 Vue.use(VueClipboard);
 Vue.use(Toasted);
 Vue.use(VueSweetalert2);
 Vue.use(skeleton);
+
+Vue.use(VueScrollTo, {
+  container: 'body',
+  duration: 180,
+  easing: 'ease-in',
+  offset: 0,
+  force: true,
+  cancelable: true,
+  onStart: false,
+  onDone: false,
+  onCancel: false,
+  x: false,
+  y: true,
+});
 
 Vue.filter('rupiah', function(value) {
   if (!value) return '';

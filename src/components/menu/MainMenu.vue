@@ -7,12 +7,6 @@
         </div>
         Produk
       </div>
-      <div class="menu-block">
-        <div class="menu-icon">
-          <font-awesome-icon icon="list" />
-        </div>
-        Kategori
-      </div>
       <div class="menu-block" @click="bagikan">
         <div class="menu-icon">
           <font-awesome-icon icon="question" />
@@ -77,7 +71,7 @@ export default {
     border-radius: 5px;
     text-align: center;
     &:hover {
-      background: #ff8823;
+      background: #5da6b1;
       color: #fff;
     }
   }

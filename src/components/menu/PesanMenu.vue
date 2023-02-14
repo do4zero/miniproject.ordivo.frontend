@@ -8,7 +8,7 @@
         Pilihan Pembayaran
         <span
           v-if="!paymentPick"
-          style="font-size: 9px; color: #ff8823"
+          style="font-size: 9px; color: #5da6b1"
         >
           ( Belum Dipilih )
         </span>
@@ -114,7 +114,7 @@ export default {
     border-radius: 5px;
     text-align: center;
     &:hover {
-      background: #ff8823;
+      background: #5da6b1;
       color: #fff;
     }
   }

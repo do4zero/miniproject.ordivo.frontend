@@ -104,93 +104,80 @@ const Controllers = {
       phone,
       email,
     } = store.shoppingcart.orders.address;
-    const { shipping } = $store.state.shoppingcart;
 
     const products = items.map((item) => {
       return { produk_id: item.id, qty: item.qty };
     });
 
-    const body = {
-      nama_pemesan: name,
-      alamat_pemesan: address,
-      nohp_pemesan: phone,
-      toko_id: id,
-      sof_id: paymentId,
-      total_amount: parseInt(priceTotal),
-      transaksi_item: products,
-    };
+    try {
+      const body = {
+        name: name,
+        address: address,
+        phone: phone,
+        email: email ? email : '',
+        shop_id: id,
+        payment_id: paymentId,
+        total_amount: parseInt(priceTotal),
+        total_qty: parseInt(qtyTotal),
+        transaksi_item: products,
+      };
 
-    const response = await pos.post(`/micro/reqtransaksi`, body);
-    const { data } = response.data;
-    this.setPaymentResponse(data);
+      this.submitLoading = true;
 
-    // Save Order
-    const itemsorder = items;
-    const bodyOrder = {
-      session_id: session_id,
-      order_id: orders.id,
-      total_amount: parseInt(priceTotal),
-      total_qty: parseInt(qtyTotal),
-      shipper_name: name,
-      shipper_address: address,
-      shipper_phone: phone,
-      shipper_email: email ? email : null,
-      trxid: data ? data.trxid : null,
-      items: itemsorder,
-      payment_response: JSON.stringify(data),
-      payment_group: paymentGroup,
-      payment_image: paymentImage,
-      referral_code: toko_id,
-      recipient_name: this.recipient_name
-        ? this.recipient_name
-        : null,
-      recipient_phone: this.recipient_phone
-        ? this.recipient_phone
-        : null,
-      shipping_type: shipping,
-    };
-    const order = await pos.post(`/guest/save_order`, bodyOrder);
+      const response = await pos.post(`/micro/reqtransaksi`, body);
+      const { data } = response.data;
+      this.setPaymentResponse(data);
 
-    // reset orders
-    $store.dispatch('shoppingcart/resetOrdersOnlyItems');
+      this.submitLoading = false;
 
-    if (paymentGroup === 'QRIS') {
-      this.$router.push({
-        name: 'transactionResponseQRIS',
-        params: {
-          id: data.trxid,
-          tokoid: toko_id,
-        },
-      });
-    }
+      // reset orders
+      $store.dispatch('shoppingcart/resetOrdersOnlyItems');
 
-    if (paymentGroup === 'EMONEY') {
-      this.$router.push({
-        name: 'transactionResponseEMONEY',
-        params: {
-          id: data.trxid,
-          tokoid: toko_id,
-        },
-      });
-    }
+      if (paymentGroup === 'QRIS') {
+        this.$router.push({
+          name: 'transactionResponseQRIS',
+          params: {
+            id: data.trxid,
+            tokoid: toko_id,
+          },
+        });
+      }
 
-    if (paymentGroup === 'VA') {
-      this.$router.push({
-        name: 'transactionResponseVA',
-        params: {
-          id: data.trxid,
-          tokoid: toko_id,
-        },
-      });
-    }
+      if (paymentGroup === 'EMONEY') {
+        this.$router.push({
+          name: 'transactionResponseEMONEY',
+          params: {
+            id: data.trxid,
+            tokoid: toko_id,
+          },
+        });
+      }
 
-    if (paymentGroup === 'SETORTUNAI') {
-      this.$router.push({
-        name: 'transactionResponseSETUN',
-        params: {
-          id: data.trxid,
-          tokoid: toko_id,
-        },
+      if (paymentGroup === 'VA') {
+        this.$router.push({
+          name: 'transactionResponseVA',
+          params: {
+            id: data.trxid,
+            tokoid: toko_id,
+          },
+        });
+      }
+
+      if (paymentGroup === 'SETORTUNAI') {
+        this.$router.push({
+          name: 'transactionResponseSETUN',
+          params: {
+            id: data.trxid,
+            tokoid: toko_id,
+          },
+        });
+      }
+    } catch (error) {
+      this.submitLoading = false;
+      this.$swal({
+        icon: 'error',
+        title: 'Error server, silahkan ulangi kembali',
+        text: error.message,
       });
     }
 

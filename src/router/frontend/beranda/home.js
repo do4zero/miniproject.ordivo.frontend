@@ -13,54 +13,54 @@ import ResponseSETUN from '@/components/payment/response/SETUN/index.vue';
 
 const HomeRoutes = [
   {
-    path: '/:tokoid',
+    path: '/toko/:tokoid',
     name: 'produk',
     component: Produk,
   },
   {
-    path: '/:tokoid/produk/:produkid',
+    path: '/toko/:tokoid/produk/:produkid',
     name: 'produk-detail',
     component: ProdukDetail,
   },
   {
-    path: '/:tokoid/keranjang/:bookid',
+    path: '/toko/:tokoid/keranjang/:bookid',
     name: 'keranjang-belanja',
     component: KeranjangBelanja,
   },
   {
-    path: '/:tokoid/order/:bookid',
+    path: '/toko/:tokoid/order/:bookid',
     name: 'order-belanja',
     component: OrderBelanja,
   },
   {
-    path: '/:tokoid/metode-pembayaran/:bookid',
+    path: '/toko/:tokoid/metode-pembayaran/:bookid',
     name: 'metode-pembayaran',
     component: MetodePembayaran,
   },
 
   {
-    path: '/:tokoid/order-history-list',
+    path: '/toko/:tokoid/order-history-list',
     name: 'order-history-list',
     component: OrderHistoryList,
   },
 
   {
-    path: '/:tokoid/store/transactions/response/qris/:id',
+    path: '/toko/:tokoid/store/transactions/response/qris/:id',
     name: 'transactionResponseQRIS',
     component: ResponseQRIS,
   },
   {
-    path: '/:tokoid/store/transactions/response/emoney/:id',
+    path: '/toko/:tokoid/store/transactions/response/emoney/:id',
     name: 'transactionResponseEMONEY',
     component: ResponseEMONEY,
   },
   {
-    path: '/:tokoid/store/transactions/response/setun/:id',
+    path: '/toko/:tokoid/store/transactions/response/setun/:id',
     name: 'transactionResponseSETUN',
     component: ResponseSETUN,
   },
   {
-    path: '/:tokoid/store/transactions/response/va/:id',
+    path: '/toko/:tokoid/store/transactions/response/va/:id',
     name: 'transactionResponseVA',
     component: ResponseVA,
   },

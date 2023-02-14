@@ -39,9 +39,6 @@
                 <font-awesome-icon icon="shopping-basket" /> Keranjang
               </button>
               <button class="btn btn-filter">
-                <font-awesome-icon icon="filter" /> Filter
-              </button>
-              <button class="btn btn-filter">
                 <font-awesome-icon icon="search" /> Cari
               </button>
             </div>
@@ -80,7 +77,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/javascript">
 import FixedBanner from '@/components/FixedBanner.vue';
 import MainMenu from '@/components/menu/MainMenu.vue';
 

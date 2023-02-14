@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-white box-white">
+  <div class="bg-wrapper box-white">
     <h4 class="title-box">Tunaikan</h4>
     <div class="grid-container">
       <MenuIcon

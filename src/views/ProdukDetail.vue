@@ -22,7 +22,7 @@
           <div class="image">
             <img
               v-if="!imageError"
-              :src="product.images"
+              :src="product.image"
               @error="onLoadError"
               @load="onLoad"
             />
@@ -55,11 +55,7 @@
                   <div class="col-md-6">
                     <div class="nprice" v-if="!skeleton">
                       Rp
-                      {{
-                        product
-                          ? rp(parseInt(product.harga_jual))
-                          : ''
-                      }}
+                      {{ product ? rp(parseInt(product.price)) : '' }}
                     </div>
                     <template v-else>
                       <sized-box :height="10" />
@@ -102,11 +98,7 @@
                   <div class="col-md-6">
                     <div class="sprice" v-if="!skeleton">
                       Rp
-                      {{
-                        product
-                          ? rp(parseInt(product.harga_jual))
-                          : ''
-                      }}
+                      {{ product ? rp(parseInt(product.price)) : '' }}
                     </div>
                     <template v-else>
                       <sized-box :height="10" />
@@ -159,7 +151,7 @@
                     <div class="content-desc">
                       <template v-if="!skeleton">
                         <template v-if="product">
-                          <div v-html="product.desc"></div>
+                          <div v-html="product.description"></div>
                         </template>
                         <div
                           class="alert alert-warning text-center"
@@ -209,7 +201,7 @@
   </div>
 </template>
 
-<script>
+<script type="text/javascript">
 import ShoppingMenu from '@/components/menu/ShoppingMenu.vue';
 // @ is an alias to /src
 import { mapActions } from 'vuex';
@@ -346,7 +338,7 @@ export default {
 .sprice {
   font-size: 22px;
   font-weight: 500;
-  color: #ff8823;
+  color: #5da6b1;
 
   @include mobile-m {
     font-size: 14px;

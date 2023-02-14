@@ -17,7 +17,7 @@
       <div class="image">
         <img
           v-if="!this.imageError"
-          :src="data.images"
+          :src="data.image"
           @error="onLoadError"
           @load="onLoad"
         />
@@ -26,14 +26,14 @@
         </div>
       </div>
       <div class="body">
-        <div class="title">{{ data ? data.nama_produk : 0 }}</div>
+        <div class="title">{{ data ? data.name : 0 }}</div>
         <sized-box :height="15" />
         <div class="price">
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-6">
                 <div class="normal">
-                  Rp {{ data ? rp(data.harga_jual) : 0 }}
+                  Rp {{ data ? rp(data.price) : 0 }}
                 </div>
               </div>
               <div class="col-md-6">
@@ -46,7 +46,7 @@
               <div class="col-md-12">
                 <div class="discount">
                   <span class="symbol">Rp</span>
-                  {{ data ? rp(data.harga_jual) : 0 }}
+                  {{ data ? rp(data.price) : 0 }}
                 </div>
               </div>
             </div>
@@ -191,7 +191,7 @@ export default {
 
         .discount {
           font-weight: 600;
-          color: #ff8823;
+          color: #5da6b1;
           @include mobile-s {
             font-size: 13px;
           }
