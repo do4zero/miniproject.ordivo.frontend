@@ -1,24 +1,23 @@
-# gotomasjid
+# Mini Project ( Frontend )
 
-## Project setup
-```
-yarn install
-```
+This part of frontend from mini project, to install backend application, clone & install this repository :
 
-### Compiles and hot-reloads for development
-```
-yarn serve
+```sh
+https://github.com/do4zero/miniproject.ordivo.backend
 ```
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## Installation
 
-### Lints and fixes files
-```
-yarn lint
-```
+Clone and install :
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+```sh
+git clone https://github.com/do4zero/miniproject.ordivo.frontend frontend
+cd frontend
+npm install 
+```
+after installation, run this command
+
+```sh
+npm run serve
+```
+go to http://localhost:8080 ( default port ) to access this backend application
