@@ -275,7 +275,7 @@ Vue.mixin({
     processChart(item, items, operator = 'plus', qtyParams = 1) {
       let currentitems = items;
       const index = currentitems.findIndex((x) => x.id === item.id);
-      const harga_jual = parseInt(item.harga_jual);
+      const harga_jual = parseInt(item.price);
       const qty =
         index !== -1
           ? operator === 'plus'

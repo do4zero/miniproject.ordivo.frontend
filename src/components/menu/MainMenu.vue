@@ -42,13 +42,13 @@ export default {
   methods: {
     bagikan() {
       const {
-        nohp,
+        phone,
       } = this.$store.state.shoppingcart.storeInfo.seller;
       const url =
         'https://api.whatsapp.com/send?phone=' +
-        nohp +
+        phone +
         '&text=' +
-        encodeURI('Assalamualaikum, saya mau bertanya...');
+        encodeURI('Hallo, saya mau bertanya...');
       window.open(url, '_self');
     },
   },

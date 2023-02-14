@@ -21,7 +21,7 @@
           <sized-box v-if="!$route.query.type" :height="40" />
           <div class="image">
             <img
-              v-if="!imageError"
+              v-if="!imageError && product"
               :src="product.image"
               @error="onLoadError"
               @load="onLoad"

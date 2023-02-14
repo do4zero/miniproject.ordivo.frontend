@@ -41,80 +41,15 @@
             <div class="bg-white">
               <div class="alamat-pengiriman">
                 <div class="header">
-                  <font-awesome-icon icon="subway" /> Data Pemesan
-                </div>
-                <div class="form-group">
-                  <label for="recipient_name">
-                    Nama Pemesan <span style="color: red">*</span>
-                  </label>
-                  <div>
-                    <input
-                      v-model="recipient_name"
-                      class="form-control"
-                      placeholder="Isi nama pemesan disini"
-                      @keyup="changeName"
-                    />
-                  </div>
-                </div>
-                <sized-box :height="10" />
-                <div class="form-group">
-                  <label for="recipient_phone">
-                    Kontak Pemesan <span style="color: red">*</span>
-                  </label>
-                  <div>
-                    <input
-                      v-model="recipient_phone"
-                      class="form-control"
-                      placeholder="Isi kontak pemesan disini"
-                      @keyup="changePhone"
-                    />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="content">
-            <div class="bg-white">
-              <div class="alamat-pengiriman">
-                <div class="header">
                   <font-awesome-icon icon="map-marker-alt" />
-                  Alamat Pengambilan / Pengiriman
-                </div>
-                <div style="display:flex; gap: 10px">
-                  <div class="radio-picked">
-                    <input
-                      type="radio"
-                      id="one"
-                      value="diambil"
-                      v-model="picked"
-                      @change="pickShipping"
-                    />&nbsp;<label for="one">Diambil Di Toko</label>
-                  </div>
-                  <div class="radio-picked">
-                    <input
-                      type="radio"
-                      id="two"
-                      value="dikirim"
-                      v-model="picked"
-                      @change="pickShipping"
-                    />&nbsp;<label for="two">Dikirim</label>
-                  </div>
+                  Alamat Pengiriman Pesanan
                 </div>
                 <div class="body">
-                  <template v-if="picked === 'diambil'">
-                    <Address
-                      :address="shopAddress"
-                      @addAddress="addAddress"
-                    />
-                  </template>
-                  <template v-else>
-                    <Address
-                      :address="buyerAddress"
-                      @addAddress="addAddress"
-                      type="dikirim"
-                    />
-                  </template>
+                  <Address
+                    :address="orders.address"
+                    @addAddress="addAddress"
+                    type="dikirim"
+                  />
                 </div>
               </div>
             </div>
@@ -145,7 +80,9 @@
                           }
                         "
                       >
-                        <font-awesome-icon icon="edit" />
+                        <div>
+                          <font-awesome-icon icon="edit" />
+                        </div>
                       </div>
                       <p class="name">
                         {{ payments ? payments.paymentTitle : '' }}
@@ -251,7 +188,6 @@ import MainMenu from '@/components/menu/CheckoutMenu.vue';
 import CartCard from '@/components/productcard/CartCard.vue';
 import ModalAdress from '@/components/modal/Address.vue';
 import Address from '@/components/address/Index.vue';
-import { required } from 'vuelidate/lib/validators';
 
 // @ is an alias to /src
 import { mapActions } from 'vuex';
@@ -275,7 +211,6 @@ export default {
     };
   },
   mounted() {
-    this.initialShippingAddress();
     this.picked = this.shipping;
     this.recipient_name = this.recipient.name;
     this.recipient_phone = this.recipient.phone;

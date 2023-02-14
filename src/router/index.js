@@ -88,7 +88,7 @@ router.beforeEach(async (to, from, next) => {
         address: shop.alamat,
         email: seller.email,
         name: seller.fullname,
-        phone: seller.nohp,
+        phone: seller.phone,
       });
 
       const routeTokoid = tokoid;

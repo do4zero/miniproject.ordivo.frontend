@@ -17,16 +17,15 @@
                   Anda telah bertransaksi <br />
                   di
                   <strong>
-                    {{ nama_toko ? nama_toko : 'Toko Kami' }}
+                    {{ response ? response.shop.name : 'Toko Kami' }}
                   </strong>
                   <br />
                   <br />
 
                   {{
-                    trxStatus
-                      ? trxStatus.status.toLowerCase(0) ===
-                          'waiting' ||
-                        trxStatus.status.toLowerCase(0) === 'failed'
+                    response
+                      ? response.status === 'WAITING' ||
+                        response.status === 'FAILED'
                         ? 'Silahkan selesaikan pembayaran transaksi anda'
                         : 'Berikut adalah detail transaksi anda'
                       : 'Silahkan selesaikan pembayaran transaksi anda'
@@ -36,23 +35,25 @@
             </div>
 
             <div class="trx-info">
-              <template v-if="response">
+              <template v-if="!trxLoading">
                 <div class="label">
                   <span style="font-size:12px">Transaksi ID</span>
-                  <br />{{ response.trxid || '' }}
+                  <br />{{ response.invoice_number || '' }}
                 </div>
 
                 <div class="label">
                   <span style="font-size:12px"
                     >Tanggal Transaksi</span
                   >
-                  <br />{{ order_date ? order_date : '' }}
+                  <br />{{ response.created_at || '' }}
                 </div>
 
                 <div class="label">
                   <span style="font-size:12px">Total Transaksi</span>
                   <br />Rp
-                  {{ response.amount | numeral('0,0') | rupiah }}
+                  {{
+                    response.total_amount | numeral('0,0') | rupiah
+                  }}
                 </div>
 
                 <div class="label">
@@ -60,26 +61,26 @@
                   <div class="product_detail">
                     <div
                       class="items"
-                      v-for="items in product_items"
-                      :key="items.id"
+                      v-for="item in response.items"
+                      :key="item.id"
                     >
                       <div
                         style="display:flex; justify-content:space-between; align-items:center"
                       >
-                        <p>
+                        <p style="font-size: 0.9rem; width: 45%">
                           <strong>{{
-                            capitalize(items.nama_produk)
+                            capitalize(item.product_name)
                           }}</strong>
                         </p>
                         <p style="color: #999">
-                          Rp {{ rp(items.amount) }}
+                          Rp {{ rp(item.price) }}
                         </p>
                       </div>
                       <div
                         style="display:flex; justify-content:space-between; align-items:center"
                       >
-                        <p>x{{ items.qty }}</p>
-                        <p>Rp {{ rp(items.subtotal) }}</p>
+                        <p>x{{ item.qty }}</p>
+                        <p>Rp {{ rp(item.amount) }}</p>
                       </div>
                     </div>
                   </div>
@@ -94,34 +95,23 @@
                   <span
                     v-else
                     :class="
-                      trxStatus
-                        ? trxStatus.status.toLowerCase(0) ===
-                            'waiting' ||
-                          trxStatus.status.toLowerCase(0) === 'failed'
+                      response
+                        ? response.status === 'WAITING' ||
+                          response.status === 'FAILED'
                           ? 'red'
                           : 'green'
                         : 'red'
                     "
                   >
                     {{
-                      trxStatus
-                        ? trxStatus.status.toLowerCase(0) ===
-                            'waiting' ||
-                          trxStatus.status.toLowerCase(0) === 'failed'
+                      response
+                        ? response.status === 'WAITING' ||
+                          response.status === 'FAILED'
                           ? 'Belum Dibayar'
                           : 'Sudah Dibayar'
                         : 'Belum Dibayar'
                     }}
                   </span>
-                  <a
-                    class="cekStatus"
-                    href="javascript:void(0)"
-                    @click="() => cekTransaksi(response.trxid)"
-                  >
-                    CEK STATUS&nbsp;&nbsp;<i
-                      class="fa fa-recycle"
-                    ></i>
-                  </a>
                 </div>
 
                 <div class="label" style="position:relative">
@@ -133,8 +123,8 @@
                     <img
                       class="metode-pembayaran"
                       :src="
-                        payments
-                          ? `/img/metpem/${payments.paymentImage}`
+                        response
+                          ? `/img/metpem/${response.payment.image}`
                           : `/img/metpem/${img_url}`
                       "
                     />
@@ -143,16 +133,6 @@
                     }}</span>
                   </div>
                   <span v-else>EMONEY</span>
-                  <a
-                    class="cekStatus"
-                    href="javascript:void(0)"
-                    style="top: 35px;"
-                    @click="
-                      () => call_deeplink(response.landing_page)
-                    "
-                  >
-                    OPEN APP
-                  </a>
                 </div>
               </template>
               <template v-else>
@@ -178,25 +158,16 @@
 
 <script>
 import { mapState } from 'vuex';
-import VueQrcode from 'vue-qrcode';
-import pos from '@/utils/pos';
+import ordivo from '@/utils/ordivo';
 import $store from '@/stores/index';
 
 export default {
-  name: 'qrisResponse',
-  components: {
-    VueQrcode,
-  },
+  name: 'transactionbox',
   data() {
     return {
       response: '',
       trxStatus: null,
       trxLoading: false,
-      countDown: 15,
-      statusPembayaran: '',
-      note: '',
-      emailphone: '',
-      username: '',
       product_items: null,
     };
   },
@@ -217,50 +188,11 @@ export default {
     handleClick() {},
     async getPaymentResponse() {
       const { id } = this.$route.params;
-      const response = await pos.get(
-        `/shop/order/${id}/paymentresponse`
-      );
-      const { data } = response.data;
-      const trx = JSON.parse(data.payment_response);
-      const orderid = data.order_id;
-      this.img_url = data.payment_image;
-      this.response = trx;
-      this.nama_toko = data.nama_toko;
-      this.order_date = data.order_date;
-
-      const productResponse = await pos.get(
-        `/shop/order/${orderid}/produk/list`
-      );
-
-      this.product_items = productResponse.data.data;
-      const openapp = await this.cekTransaksi(trx.trxid);
-      if (openapp.status.toLowerCase() === 'waiting') {
-        this.call_deeplink(trx.landing_page);
-      }
-    },
-    async cekTransaksi(id) {
       this.trxLoading = true;
-      const response = await pos.post(`/micro/cektransaksi`, {
-        invref: id,
-      });
+      const response = await ordivo.get(`/api/transaction/${id}`);
       const data = response.data.data;
-      this.statusPembayaran = response.data.data;
-      this.trxStatus = data;
+      this.response = data;
       this.trxLoading = false;
-
-      return data;
-    },
-    call_deeplink(deeplinking_url) {
-      var x = null;
-      try {
-        x = window.open(deeplinking_url, '_blank');
-      } catch (error) {
-        console.log(error);
-      } finally {
-        if (!x) {
-          console.log('terjadi kesalahan, refresh ulang browser');
-        }
-      }
     },
     belanjaLagi() {
       const { shop } = this.storeInfo;

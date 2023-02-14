@@ -122,7 +122,7 @@ export default {
   },
   mounted() {
     if (this.buyerAddress) {
-      const { name, phone, email, address } = this.buyerAddress;
+      const { name, phone, email, address } = this.orders.address;
       this.name = name;
       this.phone = phone;
       this.email = email;
@@ -130,7 +130,7 @@ export default {
     }
   },
   computed: {
-    ...mapState('shoppingcart', ['buyerAddress']),
+    ...mapState('shoppingcart', ['orders']),
   },
   methods: {
     showModal() {

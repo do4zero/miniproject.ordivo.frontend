@@ -1,5 +1,5 @@
 const Models = {
-  products: null,
+  products: [],
   skeleton: false,
 };
 

@@ -47,9 +47,9 @@
               ref="payment"
               @click="
                 pickPayment(
-                  item.id_pembayaran,
-                  item.nama_pembayaran,
-                  item.url_img,
+                  item.id,
+                  item.name,
+                  item.image,
                   item.type_admin,
                   item.admin,
                   data
@@ -57,10 +57,10 @@
               "
             >
               <div class="img">
-                <img :src="`/img/metpem/${item.url_img}`" />
+                <img :src="`/img/metpem/${item.image}`" />
               </div>
               <div class="text">
-                {{ item.nama_pembayaran || '' }}
+                {{ item.name || '' }}
               </div>
             </div>
           </template>
@@ -72,7 +72,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex';
-import pos from '@/utils/pos';
+import ordivo from '@/utils/ordivo';
 import _ from 'lodash';
 
 export default {
@@ -107,12 +107,6 @@ export default {
           title: 'Setor Tunai',
           items: [],
         },
-        // {
-        //   id: 'CREDIT',
-        //   child: 'collapseSETORTUNAI',
-        //   title: 'Kartu Kredit',
-        //   items: [],
-        // },
       ],
     };
   },
@@ -136,7 +130,7 @@ export default {
     },
     async getPaymentData() {
       this.loading = true;
-      const payment = await pos.get('/micro/metpem');
+      const payment = await ordivo.get('/api/payment/method');
 
       const { data } = payment.data;
 

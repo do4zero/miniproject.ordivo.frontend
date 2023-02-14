@@ -3,8 +3,8 @@
     <div class="shopping-cart-item">
       <div class="image">
         <img
-          v-if="imageError"
-          src="https://assets.evermos.com/public/original/q:100/evermos-production/brand/gorilla-instan/product/image/5f9674117ab8a-old.jpg"
+          v-if="!imageError"
+          :src="product ? product.image : ''"
           @error="onLoadError"
           @load="onLoad"
         />
@@ -16,7 +16,7 @@
         </span>
         <div class="title">
           <span>
-            {{ product ? product.nama_produk : '' }}
+            {{ product ? product.name : '' }}
           </span>
         </div>
         <div class="subtotal">
@@ -26,7 +26,7 @@
                 Harga :
                 <br />
                 <span class="price">
-                  Rp {{ product ? rp(product.harga_jual) : '' }}
+                  Rp {{ product ? rp(product.price) : '' }}
                 </span>
               </div>
             </div>
@@ -95,13 +95,14 @@ export default {
       let self = this;
       if (qtyConfirm < 1) {
         this.$swal({
-          title: 'Are you sure?',
-          text: "You won't be able to revert this!",
+          title: 'Apa anda yakin?',
+          text: 'Hapus produk ini.',
           icon: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#3085d6',
           cancelButtonColor: '#d33',
-          confirmButtonText: 'Yes, delete it!',
+          confirmButtonText: 'Ya, Hapus',
+          cancelButtonText: 'Batal',
         }).then((result) => {
           if (result.isConfirmed) {
             const newItem = orders.items.filter(
@@ -139,13 +140,14 @@ export default {
 
       let self = this;
       this.$swal({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'Apa anda yakin?',
+        text: 'Hapus produk ini.',
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!',
+        confirmButtonText: 'Ya, Hapus',
+        cancelButtonText: 'Batal',
       }).then((result) => {
         if (result.isConfirmed) {
           const newItem = orders.items.filter(

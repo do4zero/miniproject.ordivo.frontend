@@ -1056,4 +1056,75 @@ body {
     }
   }
 }
+
+.body-alamat {
+  position: relative;
+  border: 1px solid rgb(221, 220, 220);
+  padding: 10px;
+  border-radius: 5px;
+
+  .edit-alamat {
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    padding: 5px;
+    cursor: pointer;
+    div {
+      background: #3daf9c;
+      color: #fff;
+      padding: 2px 5px;
+      border-radius: 2px;
+    }
+  }
+
+  p {
+    padding: 0px;
+    margin: 0px;
+  }
+
+  .name {
+    font-size: 0.8rem;
+    color: #222;
+  }
+
+  .phone-email {
+    font-size: 0.6rem;
+    display: flex;
+    gap: 2px;
+    span {
+      display: block;
+      background: rgb(207, 66, 66);
+      color: #fff;
+      padding: 1px 5px;
+      border-radius: 2px;
+    }
+  }
+
+  .address {
+    font-size: 1.2rem;
+    padding: 5px 0px;
+    font-weight: 500;
+    color: #333;
+  }
+}
+
+.alamat-pengiriman {
+  .header {
+    font-size: 11px;
+    padding: 5px 0px;
+  }
+
+  .body {
+    font-size: 11px;
+    .alert {
+      color: #bb9524 !important;
+    }
+    a {
+      text-decoration: none;
+      color: #664d03;
+      font-weight: 500;
+      font-size: 12px;
+    }
+  }
+}
 </style>

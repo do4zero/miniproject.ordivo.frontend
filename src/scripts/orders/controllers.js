@@ -1,28 +1,9 @@
-import pos from '@/utils/pos';
+import ordivo from '@/utils/ordivo';
 import $store from '@/stores/index';
 
 const Controllers = {
   addAddress() {
     this.$refs.modal_address.showModal();
-  },
-  initialShippingAddress() {
-    const shop = $store.state.shoppingcart.storeInfo.shop;
-    const seller = $store.state.shoppingcart.storeInfo.seller;
-    const { shipping } = $store.state.shoppingcart;
-    const { fullname, nohp, email } = seller;
-
-    const address = {
-      address: shop.alamat,
-      email: email,
-      name: fullname,
-      phone: nohp,
-    };
-
-    $store.dispatch('shoppingcart/setShopAddress', address);
-    console.log(this.picked);
-    if (shipping == 'diambil') {
-      $store.dispatch('shoppingcart/setAddress', address);
-    }
   },
   changeName() {
     $store.dispatch(
@@ -41,21 +22,6 @@ const Controllers = {
     const store = this.$store.state;
     const recipient = store.shoppingcart.recipient;
 
-    if (
-      !recipient.name ||
-      recipient.name == '' ||
-      !recipient.phone ||
-      recipient.phone == ''
-    ) {
-      this.$swal({
-        icon: 'error',
-        title: 'Lengkapi data pemesan',
-        text: 'Data pemesan anda belum lengkap.',
-      });
-
-      return false;
-    }
-
     if (store.shoppingcart.orders.items.length < 1) {
       this.$swal({
         icon: 'error',
@@ -69,9 +35,8 @@ const Controllers = {
     if (!store.shoppingcart.orders.address) {
       this.$swal({
         icon: 'error',
-        title: 'Pilih Alamat Pengiriman / Pengambilan Barang',
-        text:
-          'Alamat pengiriman / pengambilan barang belum ditentukan.',
+        title: 'Tentukan Alamat Pengiriman',
+        text: 'Alamat pengiriman barang belum ditentukan.',
       });
 
       return false;
@@ -114,17 +79,18 @@ const Controllers = {
         name: name,
         address: address,
         phone: phone,
-        email: email ? email : '',
+        email: email,
         shop_id: id,
         payment_id: paymentId,
         total_amount: parseInt(priceTotal),
         total_qty: parseInt(qtyTotal),
-        transaksi_item: products,
+        session_id: session_id,
+        items: products,
       };
 
       this.submitLoading = true;
 
-      const response = await pos.post(`/micro/reqtransaksi`, body);
+      const response = await ordivo.post(`/api/transaction`, body);
       const { data } = response.data;
       this.setPaymentResponse(data);
 
@@ -132,46 +98,15 @@ const Controllers = {
 
       // reset orders
       $store.dispatch('shoppingcart/resetOrdersOnlyItems');
+      $store.dispatch('payment/resetPayment');
 
-      if (paymentGroup === 'QRIS') {
-        this.$router.push({
-          name: 'transactionResponseQRIS',
-          params: {
-            id: data.trxid,
-            tokoid: toko_id,
-          },
-        });
-      }
-
-      if (paymentGroup === 'EMONEY') {
-        this.$router.push({
-          name: 'transactionResponseEMONEY',
-          params: {
-            id: data.trxid,
-            tokoid: toko_id,
-          },
-        });
-      }
-
-      if (paymentGroup === 'VA') {
-        this.$router.push({
-          name: 'transactionResponseVA',
-          params: {
-            id: data.trxid,
-            tokoid: toko_id,
-          },
-        });
-      }
-
-      if (paymentGroup === 'SETORTUNAI') {
-        this.$router.push({
-          name: 'transactionResponseSETUN',
-          params: {
-            id: data.trxid,
-            tokoid: toko_id,
-          },
-        });
-      }
+      this.$router.push({
+        name: 'transactionbox',
+        params: {
+          id: data.invoice_number,
+          tokoid: toko_id,
+        },
+      });
     } catch (error) {
       this.submitLoading = false;
       this.$swal({

@@ -1,17 +1,13 @@
 <template>
   <div v-if="address">
     <div class="body-alamat">
-      <div
-        v-if="type === 'dikirim'"
-        class="edit-alamat"
-        @click="() => $emit('addAddress')"
-      >
-        <font-awesome-icon icon="edit" />
+      <div class="edit-alamat" @click="() => $emit('addAddress')">
+        <div><font-awesome-icon icon="edit" /></div>
       </div>
-      <p class="name">{{ address.name }}</p>
+      <p class="name">Pemesan : {{ address.name }}</p>
       <p class="phone-email">
-        {{ address.phone }} ,
-        {{ address.email }}
+        <span>No. Hp : {{ address.phone }}</span>
+        <span>Email : {{ address.email }}</span>
       </p>
       <p class="address">
         {{ address.address }}
@@ -44,58 +40,3 @@ export default {
   },
 };
 </script>
-
-<style lang="scss" scoped>
-.body-alamat {
-  position: relative;
-  border: 1px solid rgb(221, 220, 220);
-  padding: 10px;
-  border-radius: 5px;
-
-  .edit-alamat {
-    position: absolute;
-    right: 0px;
-    top: 0px;
-    padding: 5px;
-    cursor: pointer;
-  }
-
-  p {
-    padding: 0px;
-    margin: 0px;
-  }
-
-  .name {
-    font-size: 10px;
-  }
-
-  .phone-email {
-    font-size: 8px;
-  }
-
-  .address {
-    font-size: 14px;
-    padding: 5px 0px;
-  }
-}
-
-.alamat-pengiriman {
-  .header {
-    font-size: 11px;
-    padding: 5px 0px;
-  }
-
-  .body {
-    font-size: 11px;
-    .alert {
-      color: #bb9524 !important;
-    }
-    a {
-      text-decoration: none;
-      color: #664d03;
-      font-weight: 500;
-      font-size: 12px;
-    }
-  }
-}
-</style>

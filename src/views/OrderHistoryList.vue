@@ -17,7 +17,7 @@
         </a>
 
         <sized-box :height="40" />
-        <template v-if="products">
+        <template v-if="products.length > 0">
           <div
             class="content"
             v-for="product in products"
@@ -32,16 +32,18 @@
               <div class="card-order">
                 <div class="order-id items">
                   <span class="label"><strong>Order ID</strong></span>
-                  <span class="value">{{ product.trxid }}</span>
+                  <span class="value">{{
+                    product.invoice_number
+                  }}</span>
                 </div>
                 <div class="order-date items">
                   <span class="label"><strong>Trx Date</strong></span>
-                  <span class="value">{{ product.order_date }}</span>
+                  <span class="value">{{ product.created_at }}</span>
                 </div>
                 <div class="order-qty items">
                   <span class="label"><strong>Qty</strong></span>
                   <span class="value"
-                    >{{ product.total_qty }} items</span
+                    >{{ parseInt(product.total_qty) }} items</span
                   >
                 </div>
                 <div class="order-amount items">
@@ -112,45 +114,13 @@ export default {
     redirect(product) {
       const { tokoid } = this.$route.params;
 
-      if (product.payment_group === 'QRIS') {
-        this.$router.push({
-          name: 'transactionResponseQRIS',
-          params: {
-            id: product.trxid,
-            tokoid: tokoid,
-          },
-        });
-      }
-
-      if (product.payment_group === 'EMONEY') {
-        this.$router.push({
-          name: 'transactionResponseEMONEY',
-          params: {
-            id: product.trxid,
-            tokoid: tokoid,
-          },
-        });
-      }
-
-      if (product.payment_group === 'VA') {
-        this.$router.push({
-          name: 'transactionResponseVA',
-          params: {
-            id: product.trxid,
-            tokoid: tokoid,
-          },
-        });
-      }
-
-      if (product.payment_group === 'SETORTUNAI') {
-        this.$router.push({
-          name: 'transactionResponseSETUN',
-          params: {
-            id: product.trxid,
-            tokoid: tokoid,
-          },
-        });
-      }
+      this.$router.push({
+        name: 'transactionbox',
+        params: {
+          id: product.invoice_number,
+          tokoid: tokoid,
+        },
+      });
     },
   },
   created() {

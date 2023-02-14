@@ -35,7 +35,19 @@
           </div>
           Produk
         </div>
-        <div class="menu-block">
+        <div
+          class="menu-block"
+          @click="
+            () => {
+              $router.push({
+                name: 'order-history-list',
+                params: {
+                  tokoid: $route.params.tokoid,
+                },
+              });
+            }
+          "
+        >
           <div class="menu-icon">
             <font-awesome-icon icon="history" />
           </div>
