@@ -15,6 +15,7 @@
                   <input
                     class="form-control my-input"
                     placeholder="Cari produk yang anda inginkan..."
+                    v-model="search"
                   />
                 </div>
               </div>
@@ -23,6 +24,7 @@
             <div class="pencarian">
               <button
                 class="btn btn-filter"
+                style="display: flex; justify-content: center; gap: 2px;"
                 @click="
                   () => {
                     const { tokoid } = $route.params;
@@ -37,9 +39,15 @@
                 "
               >
                 <font-awesome-icon icon="shopping-basket" /> Keranjang
+                <span
+                  v-if="orders.qtyTotal > 0"
+                  class="qtyKeranjang"
+                  >{{ orders.qtyTotal }}</span
+                >
               </button>
-              <button class="btn btn-filter">
-                <font-awesome-icon icon="search" /> Cari
+              <button class="btn btn-filter" @click="searchProduk">
+                <font-awesome-icon icon="search" />
+                Cari
               </button>
             </div>
           </div>

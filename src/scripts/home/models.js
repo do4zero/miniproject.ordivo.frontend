@@ -4,6 +4,8 @@ const Models = {
   seller: null,
   skeletonProduct: false,
   skeletonInformation: false,
+  search: '',
+  page: 1,
 };
 
 export { Models };

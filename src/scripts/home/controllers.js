@@ -4,13 +4,20 @@ import $store from '@/stores/index';
 
 const Controllers = {
   // fetch program masjid
-  async loadProduk() {
+  async loadProduk(search = '') {
     const { tokoid } = this.$route.params;
     this.skeletonProduct = true;
-    const response = await ordivo.get(`/api/shop/products/${tokoid}`);
+    const response = await ordivo.get(
+      `/api/shop/products/${tokoid}${
+        search ? '?search=' + search : ''
+      }`
+    );
     const { data } = response.data;
     this.products = data;
     this.skeletonProduct = false;
+  },
+  searchProduk() {
+    this.loadProduk(this.search);
   },
   async loadTokoInformation() {
     const { tokoid } = this.$route.params;
